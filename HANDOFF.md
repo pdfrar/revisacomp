@@ -17,7 +17,7 @@
 ## Próximos passos
 
 1. **Mesclar o PR #1** na `main`. Assim a Vercel passa a publicar pelo GitHub, e o deploy local deixa de ser a produção.
-2. **Proteção da Vercel:** a URL do deploy (`revisacomp-2semmvv3e-...`) e o endereço reserva redirecionaram para o login da Vercel (HTTP 302). O `revisacomp.vercel.app` não foi testado. Se ele também pedir login, desligue em Settings → Deployment Protection para os alunos abrirem sem conta.
+2. **Proteção da Vercel:** a URL do deploy (`revisacomp-2semmvv3e-...`) redirecionou para o login da Vercel (HTTP 302). O `revisacomp.vercel.app` e o endereço reserva não foram testados. Se ele também pedir login, desligue em Settings → Deployment Protection para os alunos abrirem sem conta.
 3. **Escolher a próxima série** para a etapa 2 (ainda não decidida). Fluxo sugerido: `migrador` → `revisor-pedagogico` → `gerador-questoes`, se o banco ficar pequeno.
    - Aulas disponíveis em `../HTMLs_Didaticos`: 4º (1), 5º (3), 7º (3), 8º (4), 9º (5), 1ª série (1), 3ª série (9).
 4. Pôr a data na prova do 6º ano (`conteudo/provas/6ano/prova-4bim-2026.json`) quando ela for marcada.
