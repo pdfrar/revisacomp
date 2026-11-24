@@ -1,0 +1,10 @@
+{
+  "titulo": "Prova do 4º bimestre",
+  "data": null,
+  "observacao": "Estude os três assuntos e faça o simulado pelo menos duas vezes.",
+  "assuntos": [
+    { "id": "6ano/eps", "questoes": 7 },
+    { "id": "6ano/python-variaveis-input", "questoes": 7 },
+    { "id": "6ano/pacotes-ip-dns", "questoes": 6 }
+  ]
+}

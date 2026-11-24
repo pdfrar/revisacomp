@@ -1,0 +1,16 @@
+{
+  "name": "revisacomp",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Revisa Comp: biblioteca de revisão de Computação para prova",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.js",
+    "dev": "node scripts/build.js && node scripts/dev.js",
+    "check": "node scripts/build.js --check"
+  },
+  "engines": { "node": ">=20" },
+  "dependencies": {
+    "marked": "^15.0.12"
+  }
+}

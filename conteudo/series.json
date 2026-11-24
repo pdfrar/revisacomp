@@ -1,0 +1,11 @@
+[
+  { "id": "4ano",   "nome": "4º ano",   "curto": "4º",   "etapa": "Ensino Fundamental I",  "cor": "#1f7a8c" },
+  { "id": "5ano",   "nome": "5º ano",   "curto": "5º",   "etapa": "Ensino Fundamental I",  "cor": "#3a7d44" },
+  { "id": "6ano",   "nome": "6º ano",   "curto": "6º",   "etapa": "Ensino Fundamental II", "cor": "#b8551c" },
+  { "id": "7ano",   "nome": "7º ano",   "curto": "7º",   "etapa": "Ensino Fundamental II", "cor": "#6b3fa0" },
+  { "id": "8ano",   "nome": "8º ano",   "curto": "8º",   "etapa": "Ensino Fundamental II", "cor": "#a23b5b" },
+  { "id": "9ano",   "nome": "9º ano",   "curto": "9º",   "etapa": "Ensino Fundamental II", "cor": "#2b5c9e" },
+  { "id": "1serie", "nome": "1ª série", "curto": "1ª",   "etapa": "Ensino Médio",          "cor": "#8a5a00" },
+  { "id": "2serie", "nome": "2ª série", "curto": "2ª",   "etapa": "Ensino Médio",          "cor": "#2f6f6a" },
+  { "id": "3serie", "nome": "3ª série", "curto": "3ª",   "etapa": "Ensino Médio",          "cor": "#4a5568" }
+]

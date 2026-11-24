@@ -1,0 +1,99 @@
+[
+  {
+    "id": "tipos",
+    "tipo": "classificar",
+    "titulo": "Qual é o tipo?",
+    "dica": "Olhe com atenção para as aspas, o ponto e as letras maiúsculas.",
+    "categorias": [
+      { "id": "str", "rotulo": "str" },
+      { "id": "int", "rotulo": "int" },
+      { "id": "float", "rotulo": "float" },
+      { "id": "bool", "rotulo": "bool" }
+    ],
+    "itens": [
+      { "texto": "`\"Shadow\"`", "resposta": "str", "porque": "Está entre aspas: é texto." },
+      { "texto": "`42`", "resposta": "int", "porque": "Número inteiro, sem aspas." },
+      { "texto": "`3.14`", "resposta": "float", "porque": "Tem ponto decimal." },
+      { "texto": "`True`", "resposta": "bool", "porque": "Verdadeiro, com T maiúsculo." },
+      { "texto": "`\"42\"`", "resposta": "str", "porque": "Tem aspas! Mesmo sendo algarismos, é texto." },
+      { "texto": "`-5`", "resposta": "int", "porque": "Inteiros também podem ser negativos." },
+      { "texto": "`19.90`", "resposta": "float", "porque": "Preço com centavos, escrito com ponto." },
+      { "texto": "`False`", "resposta": "bool", "porque": "Falso, com F maiúsculo." },
+      { "texto": "`'Neo Tóquio'`", "resposta": "str", "porque": "Aspas simples também valem para texto." },
+      { "texto": "`\"True\"`", "resposta": "str", "porque": "Pegadinha: entre aspas, vira texto." },
+      { "texto": "`1.0`", "resposta": "float", "porque": "Tem ponto, então é float, mesmo valendo 1." },
+      { "texto": "`0`", "resposta": "int", "porque": "Zero é um número inteiro." }
+    ]
+  },
+  {
+    "id": "bugs",
+    "tipo": "classificar",
+    "titulo": "Caça-bugs",
+    "dica": "Cada linha está certa ou tem erro? Se tiver, leia a correção.",
+    "categorias": [
+      { "id": "ok", "curto": "✔ Certa", "rotulo": "Certa" },
+      { "id": "bug", "curto": "🐞 Tem erro", "rotulo": "Tem erro" }
+    ],
+    "itens": [
+      { "texto": "`nome = \"Ana\"`", "resposta": "ok", "porque": "Texto entre aspas." },
+      { "texto": "`cidade = Patos`", "resposta": "bug", "porque": "Faltaram as aspas: `cidade = \"Patos\"`." },
+      { "texto": "`altura = 1,58`", "resposta": "bug", "porque": "Vírgula no lugar do ponto: `altura = 1.58`." },
+      { "texto": "`vidas = 3`", "resposta": "ok", "porque": "Inteiro sem aspas." },
+      { "texto": "`online = true`", "resposta": "bug", "porque": "Booleano com maiúscula: `online = True`." },
+      { "texto": "`preco = 19.90`", "resposta": "ok", "porque": "Float com ponto." },
+      { "texto": "`nome do heroi = \"Kira\"`", "resposta": "bug", "porque": "Nome de variável não pode ter espaço: `nome_do_heroi = \"Kira\"`." },
+      { "texto": "`print(\"Olá,\", nome)`", "resposta": "ok", "porque": "Texto entre aspas e variável separados por vírgula." },
+      { "texto": "`idade = int(input(\"Idade? \")`", "resposta": "bug", "porque": "Faltou um parêntese no final: `int(input(\"Idade? \"))`." },
+      { "texto": "`moedas = \"50\"` (e depois vamos somar moedas)", "resposta": "bug", "porque": "Com aspas é texto e não dá para somar: `moedas = 50`." },
+      { "texto": "`escudo = False`", "resposta": "ok", "porque": "Booleano escrito certinho." },
+      { "texto": "`total = preco x quantidade`", "resposta": "bug", "porque": "Multiplicação no Python é `*`: `total = preco * quantidade`." }
+    ]
+  },
+  {
+    "id": "terminal",
+    "tipo": "terminal",
+    "titulo": "Teste no terminal",
+    "dica": "Escolha um programa, clique em **Executar** e digite as respostas. Você também pode **editar o código** e testar suas próprias ideias.",
+    "programas": [
+      {
+        "nome": "Soma sem int()",
+        "descricao": "Sugestão: digite 10 e depois 5. Qual será o resultado?",
+        "codigo": "a = input(\"Primeiro número: \")\nb = input(\"Segundo número: \")\nprint(\"Resultado:\", a + b)",
+        "nota": "O `input()` devolve **texto**, então o `+` **colou** as duas respostas. Para somar de verdade, falta o `int()`. Veja o próximo programa."
+      },
+      {
+        "nome": "Soma com int()",
+        "descricao": "Agora com a conversão. Teste também digitando uma palavra, como **dez**.",
+        "codigo": "a = int(input(\"Primeiro número: \"))\nb = int(input(\"Segundo número: \"))\nprint(\"Resultado:\", a + b)",
+        "nota": "Com o `int()`, os textos viraram números e o `+` fez a **soma**."
+      },
+      {
+        "nome": "Idade + 1",
+        "descricao": "Esse programa tem um erro. Execute e descubra qual. Depois, clique em **Editar o código** e conserte!",
+        "codigo": "idade = input(\"Quantos anos você tem? \")\nprint(idade + 1)",
+        "nota": "Funcionou! Você consertou o programa.",
+        "notaErro": "Correção: `idade = int(input(\"Quantos anos você tem? \"))`."
+      },
+      {
+        "nome": "Vírgula no preço",
+        "descricao": "O que o Python entende quando usamos vírgula num número?",
+        "codigo": "preco = 19,90\nprint(preco)\npreco = 19.90\nprint(preco)",
+        "nota": "Com vírgula, o Python guardou **dois números separados**: `(19, 90)`. Com ponto, guardou o decimal `19.9` (o zero do final some, mas o valor é o mesmo)."
+      },
+      {
+        "nome": "Loja do jogo",
+        "descricao": "Programa completo, com entrada, processamento e saída.",
+        "codigo": "print(\"=== LOJA DO JOGO ===\")\npreco = int(input(\"Preço de uma poção: \"))\nquantidade = int(input(\"Quantas poções você quer? \"))\ntotal = preco * quantidade\nprint(\"Total a pagar:\", total, \"moedas\")",
+        "nota": "**Entrada:** preço e quantidade · **Processamento:** `preco * quantidade` · **Saída:** o `print` com o total."
+      }
+    ]
+  },
+  {
+    "id": "onlinegdb",
+    "tipo": "tarefa",
+    "titulo": "Desafio no OnlineGDB",
+    "selo": "Para fazer no computador",
+    "enunciado": "Abra o [onlinegdb.com](https://www.onlinegdb.com/online_python_compiler) (linguagem **Python 3**) e escreva um programa que:\n\n1. Pergunte o nome de um personagem com `input()`.\n2. Pergunte a **força** dele e quantas **moedas** ele tem, usando `int(input())`.\n3. Calcule o **dano do ataque especial** (força vezes 3).\n4. Pergunte quantas moedas ele vai **gastar na loja** e calcule quantas **sobram**.\n5. Mostre tudo na tela com `print()`.\n\nDica: dá para testar aqui mesmo, no terminal acima, editando um dos programas.",
+    "solucao": "```python\nnome = input(\"Nome do personagem: \")\nforca = int(input(\"Força: \"))\nmoedas = int(input(\"Quantas moedas ele tem? \"))\ngasto = int(input(\"Quantas moedas vai gastar na loja? \"))\n\ndano = forca * 3\nsobra = moedas - gasto\n\nprint(\"=== FICHA DE\", nome, \"===\")\nprint(\"Dano do ataque especial:\", dano)\nprint(\"Moedas que sobraram:\", sobra)\n```\n\nOutras respostas também estão certas, desde que usem `int(input())` nos números e façam as contas."
+  }
+]

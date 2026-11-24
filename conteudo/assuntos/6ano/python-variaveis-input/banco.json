@@ -1,0 +1,19 @@
+[
+  { "pergunta": "O que aparece na tela?", "codigo": "nome = \"Ana\"\nprint(\"Olá,\", nome)", "opcoes": ["Olá, Ana", "Olá,Ana", "Olá, nome", "Erro"], "explicacao": "Com vírgula, o Python põe um espaço entre as partes e mostra o **conteúdo** da variável." },
+  { "pergunta": "E agora, com o sinal de mais?", "codigo": "nome = \"Ana\"\nprint(\"Olá,\" + nome)", "opcoes": ["Olá,Ana", "Olá, Ana", "Olá,+Ana", "Erro"], "explicacao": "O `+` cola os textos sem colocar espaço." },
+  { "pergunta": "O que aparece na tela?", "codigo": "a = \"10\"\nb = \"5\"\nprint(a + b)", "opcoes": ["105", "15", "10 + 5", "Erro"], "explicacao": "`\"10\"` e `\"5\"` são textos (têm aspas). O `+` cola: 105." },
+  { "pergunta": "O que aparece na tela?", "codigo": "print(7 * 3)", "opcoes": ["21", "7 * 3", "73", "10"], "explicacao": "`*` é multiplicação: 7 × 3 = 21." },
+  { "pergunta": "O que aparece na tela?", "codigo": "print(6 / 3)", "opcoes": ["2.0", "2", "6 / 3", "0.5"], "explicacao": "A divisão com `/` sempre dá um float, por isso aparece `2.0`." },
+  { "pergunta": "O usuário digitou **11**. O que aparece?", "codigo": "idade = int(input(\"Idade? \"))\nprint(idade + 1)", "opcoes": ["12", "111", "11 + 1", "TypeError"], "explicacao": "O `int()` converteu “11” em número, então a conta deu 12." },
+  { "pergunta": "O que aparece na tela?", "codigo": "moedas = 250\nmoedas = moedas * 2\nprint(moedas)", "opcoes": ["500", "250", "2502", "moedas"], "explicacao": "A linha 2 calcula 250 × 2 e guarda o resultado na mesma caixa: agora `moedas` vale 500." },
+  { "pergunta": "Que tipo de dado o `input()` sempre devolve?", "opcoes": ["str (texto)", "int (inteiro)", "float (decimal)", "Depende do que o usuário digitar"], "explicacao": "Sempre texto. Por isso usamos `int()` quando queremos fazer contas." },
+  { "pergunta": "Qual linha está **certa**?", "opcoes": ["`preco = 19.90`", "`preco = 19,90`", "`preco = \"19,90\" + 1`", "`preco = R$ 19.90`"], "explicacao": "Float com ponto, sem aspas e sem símbolo de moeda." },
+  { "pergunta": "Em `pontos = 100`, o que o `=` faz?", "opcoes": ["Guarda o valor 100 na variável pontos", "Pergunta se pontos é igual a 100", "Mostra 100 na tela", "Soma 100 aos pontos"], "explicacao": "É a atribuição: a variável da esquerda **recebe** o valor da direita." },
+  { "pergunta": "Qual linha guarda corretamente o **texto** Patos?", "opcoes": ["`cidade = \"Patos\"`", "`cidade = Patos`", "`\"cidade\" = Patos`", "`cidade == Patos`"], "explicacao": "Texto sempre entre aspas, e a variável fica à esquerda do `=`." },
+  { "pergunta": "Qual é o tipo de `1.75`?", "opcoes": ["float", "int", "str", "bool"], "explicacao": "Número com ponto decimal é float." },
+  { "pergunta": "Qual destes é um valor **bool** escrito corretamente?", "opcoes": ["`True`", "`true`", "`\"verdadeiro\"`", "`VERDADEIRO`"], "explicacao": "True e False começam com letra maiúscula." },
+  { "pergunta": "O que aparece na tela?", "codigo": "nome = \"Leo\"\nprint(\"Oi, \" + nome + \"!\")", "opcoes": ["Oi, Leo!", "Oi,Leo!", "Oi, nome!", "Oi, + Leo +!"], "explicacao": "O espaço está dentro das aspas de “Oi, ” e o `+` cola tudo." },
+  { "pergunta": "O usuário digita **4** e depois **2**. O que aparece?", "codigo": "a = input(\"A: \")\nb = input(\"B: \")\nprint(a + b)", "opcoes": ["42", "6", "4 + 2", "8"], "explicacao": "Sem `int()`, as respostas são texto e o `+` cola: 42." },
+  { "pergunta": "Como pedir a idade já convertida em número?", "opcoes": ["`idade = int(input(\"Idade? \"))`", "`idade = input(int(\"Idade? \"))`", "`idade = int input(\"Idade? \")`", "`idade = input(\"Idade? \")`"], "explicacao": "O `input()` vai dentro do `int()`, e a linha fecha com dois parênteses." },
+  { "pergunta": "O que aparece na tela?", "codigo": "vidas = 3\nvidas = vidas + 2\nprint(vidas * 2)", "opcoes": ["10", "8", "6", "5"], "explicacao": "vidas passa a valer 5; depois 5 × 2 = 10." }
+]

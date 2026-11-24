@@ -1,0 +1,60 @@
+[
+  {
+    "id": "classifica",
+    "tipo": "classificar",
+    "titulo": "Entrada, processamento ou saída?",
+    "dica": "Leia cada parte e toque em E, P ou S.",
+    "categorias": [
+      { "id": "E", "curto": "E", "rotulo": "Entrada" },
+      { "id": "P", "curto": "P", "rotulo": "Processamento" },
+      { "id": "S", "curto": "S", "rotulo": "Saída" }
+    ],
+    "itens": [
+      { "texto": "Apertar o botão A do controle", "resposta": "E", "porque": "É uma ação sua enviando um comando para o jogo." },
+      { "texto": "O jogo calcula a gravidade e a altura do pulo", "resposta": "P", "porque": "É o trabalho feito lá dentro do videogame." },
+      { "texto": "O boneco aparece pulando na TV", "resposta": "S", "porque": "É o resultado que você vê." },
+      { "texto": "Falar “Alexa, tocar minha música”", "resposta": "E", "porque": "Sua voz entra pelo microfone." },
+      { "texto": "A música começa a tocar na caixa de som", "resposta": "S", "porque": "É o resultado que você ouve." },
+      { "texto": "O sistema do banco confere a senha e o saldo", "resposta": "P", "porque": "É a verificação feita pelo sistema." },
+      { "texto": "O termômetro mede 31 °C", "resposta": "E", "porque": "Sensores também são entrada: enviam um dado do mundo para o sistema." },
+      { "texto": "O celular vibra às 06h30", "resposta": "S", "porque": "Vibrar é uma saída pelo tato." },
+      { "texto": "A máquina de lanches compara o dinheiro colocado com o preço", "resposta": "P", "porque": "Comparar e decidir é processamento." },
+      { "texto": "Digitar a senha no caixa eletrônico", "resposta": "E", "porque": "É um dado que você manda pelo teclado." },
+      { "texto": "O comprovante sai impresso", "resposta": "S", "porque": "A impressora entrega o resultado no papel." },
+      { "texto": "O app de mapas descobre o caminho mais curto até a escola", "resposta": "P", "porque": "Calcular o caminho é o trabalho do app." }
+    ]
+  },
+  {
+    "id": "ordem",
+    "tipo": "ordenar",
+    "titulo": "Detetive EPS: monte o ciclo",
+    "dica": "Toque nas frases na ordem certa: primeiro a Entrada, depois o Processamento e por último a Saída.",
+    "rotulos": ["Entrada", "Processamento", "Saída"],
+    "cenarios": [
+      { "titulo": "🍹 Suco no liquidificador", "passos": ["Colocar laranjas, água e gelo e girar o botão", "As lâminas giram e trituram tudo", "O suco fica pronto para o copo"], "fim": "Ingredientes e botão → lâminas girando → suco pronto." },
+      { "titulo": "💬 Áudio no WhatsApp", "passos": ["Segurar o microfone e falar a mensagem", "O celular transforma a voz em dados e envia pela internet", "O áudio toca no alto-falante do celular do amigo"], "fim": "Voz no microfone → conversão e envio → áudio tocando." },
+      { "titulo": "🍕 Pedido no app de entrega", "passos": ["Escolher a pizza, o endereço e tocar em “Fazer pedido”", "O app confere o pagamento e manda o pedido para a pizzaria", "Aparece a notificação “Chega em 30 min!”"], "fim": "Escolhas → conferência e envio → notificação." },
+      { "titulo": "🚦 Semáforo com botão", "passos": ["O pedestre aperta o botão do poste", "O chip espera alguns segundos de segurança", "Fica vermelho para os carros e verde para o pedestre"], "fim": "Botão → espera calculada → sinais trocam." }
+    ]
+  },
+  {
+    "id": "dados",
+    "tipo": "classificar",
+    "titulo": "Número ou texto?",
+    "dica": "Pense: esse dado serve para fazer conta, ou só para ler e identificar?",
+    "categorias": [
+      { "id": "N", "curto": "🔢 Número", "rotulo": "Número" },
+      { "id": "T", "curto": "🔤 Texto", "rotulo": "Texto" }
+    ],
+    "itens": [
+      { "texto": "1500 (pontos no jogo)", "resposta": "N", "porque": "Dá para somar mais pontos." },
+      { "texto": "“Você passou de fase!”", "resposta": "T", "porque": "É uma mensagem para ler." },
+      { "texto": "24 (graus de temperatura)", "resposta": "N", "porque": "É uma medida." },
+      { "texto": "“B4” (código do salgado)", "resposta": "T", "porque": "Mistura letra e número e só identifica o produto. Não se faz conta com ele." },
+      { "texto": "dragao_azul@email", "resposta": "T", "porque": "Um e-mail é texto." },
+      { "texto": "5.00 (reais colocados na máquina)", "resposta": "N", "porque": "Dinheiro é número: a máquina calcula o troco com ele." },
+      { "texto": "“PARE”", "resposta": "T", "porque": "É um aviso escrito." },
+      { "texto": "3 (vidas do personagem)", "resposta": "N", "porque": "É uma contagem: pode aumentar ou diminuir." }
+    ]
+  }
+]
