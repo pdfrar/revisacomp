@@ -1,0 +1,40 @@
+[
+  {
+    "id": "detetive",
+    "tipo": "classificar",
+    "titulo": "Detetive de design: qual é o truque?",
+    "dica": "Leia a situação e toque no truque que ela usa.",
+    "categorias": [
+      { "id": "var", "curto": "🎰 Recompensa variável", "rotulo": "Recompensa variável" },
+      { "id": "fim", "curto": "♾️ Sem ponto de parada", "rotulo": "Sem ponto de parada (rolagem infinita, autoplay)" },
+      { "id": "medo", "curto": "🔥 Medo de perder", "rotulo": "Medo de perder (sequência, conteúdo que some, prêmio diário)" }
+    ],
+    "itens": [
+      { "texto": "“Sua sequência de 112 dias acaba em 1 hora!”", "resposta": "medo", "porque": "Ofensiva: você entra para não perder o que já conquistou." },
+      { "texto": "Você puxa o feed para baixo várias vezes esperando algo novo", "resposta": "var", "porque": "Às vezes vem novidade, às vezes não: é o caça-níquel." },
+      { "texto": "O próximo episódio começa sozinho em 5 segundos", "resposta": "fim", "porque": "Reprodução automática: continuar não exige nada." },
+      { "texto": "“Baú grátis liberado! Some à meia-noite ⏰”", "resposta": "medo", "porque": "Prêmio diário com prazo: urgência." },
+      { "texto": "Você rola os vídeos curtos e nunca aparece um “fim”", "resposta": "fim", "porque": "Rolagem infinita: não existe a página que termina." },
+      { "texto": "Abrir um pacote de figurinhas no jogo sem saber se vem uma rara", "resposta": "var", "porque": "Prêmio incerto prende mais que prêmio garantido." },
+      { "texto": "O story do seu amigo desaparece em 24 horas", "resposta": "medo", "porque": "Conteúdo que some: tem que ver agora." },
+      { "texto": "Voltar ao app toda hora para ver se a foto ganhou mais curtidas", "resposta": "var", "porque": "Você não sabe quantas curtidas vão aparecer: recompensa variável." }
+    ]
+  },
+  {
+    "id": "dinheiro",
+    "tipo": "ordenar",
+    "titulo": "Como o app ganha dinheiro",
+    "dica": "Arraste para montar a ordem da cadeia.",
+    "cenarios": [
+      { "titulo": "💰 Do seu tempo ao dinheiro", "passos": ["O app é desenhado com truques para prender a atenção", "Você passa mais tempo no app", "Você vê mais anúncios e deixa mais dados", "Os anunciantes pagam a empresa"], "fim": "Por isso existe um time inteiro estudando como fazer você ficar." }
+    ]
+  },
+  {
+    "id": "redesign",
+    "tipo": "tarefa",
+    "titulo": "Desafio: redesenhe um app",
+    "selo": "Para pensar",
+    "enunciado": "Escolha um app que você usa muito. **1)** Encontre 3 truques da lista. **2)** Dê uma nota de 1 a 5 para o quanto ele prende. **3)** Invente **1 mudança** que deixaria o app mais saudável sem deixar de ser bom.",
+    "resposta": "Exemplo: TikTok. Truques: rolagem infinita, reprodução automática, curtidas. Nota 5. Mudança: depois de 30 minutos, o feed para e mostra “Você assistiu 30 min. Quer continuar?”, com o botão de sair em destaque."
+  }
+]

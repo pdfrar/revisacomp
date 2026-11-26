@@ -1,0 +1,84 @@
+[
+  {
+    "id": "pacotes",
+    "tipo": "pacotes",
+    "titulo": "Correio de pacotes",
+    "dica": "Os pacotes chegaram embaralhados em São Paulo e **um deles se perdeu**. Toque neles na ordem dos números (1, 2, 3…) para montar a mensagem. Quando faltar um, peça o reenvio. Os pontinhos (·) são espaços.",
+    "de": "Patos",
+    "para": "São Paulo",
+    "mensagens": [
+      "NOS VEMOS NA ESCOLA AMANHÃ",
+      "O JOGO COMEÇA ÀS TRÊS HORAS",
+      "TRAGA O CADERNO DE PYTHON",
+      "A INTERNET VIAJA EM PACOTES",
+      "FELIZ ANIVERSÁRIO, VOVÓ!"
+    ]
+  },
+  {
+    "id": "ip",
+    "tipo": "classificar",
+    "titulo": "Esse endereço IP existe?",
+    "dica": "Confira as regras: exatamente 4 números, separados por pontos, cada um de 0 a 255.",
+    "categorias": [
+      { "id": "sim", "curto": "✔ Existe", "rotulo": "Existe" },
+      { "id": "nao", "curto": "✘ Não existe", "rotulo": "Não existe" }
+    ],
+    "itens": [
+      { "texto": "`192.168.0.10`", "resposta": "sim", "porque": "4 números, todos entre 0 e 255." },
+      { "texto": "`200.17.45.8`", "resposta": "sim", "porque": "4 números, todos entre 0 e 255." },
+      { "texto": "`256.10.4.1`", "resposta": "nao", "porque": "256 passou do limite de 255." },
+      { "texto": "`10.0.3.7`", "resposta": "sim", "porque": "Tudo dentro das regras." },
+      { "texto": "`172.16.300.2`", "resposta": "nao", "porque": "300 é maior que 255." },
+      { "texto": "`192.168.1`", "resposta": "nao", "porque": "Só tem 3 números. Precisa de 4." },
+      { "texto": "`10.0.2.15.4`", "resposta": "nao", "porque": "Tem 5 números. Precisa de exatamente 4." },
+      { "texto": "`8.8.8.8`", "resposta": "sim", "porque": "Números pequenos também valem." },
+      { "texto": "`12.34.-5.6`", "resposta": "nao", "porque": "Não existe número negativo no IP: vai de 0 a 255." },
+      { "texto": "`255.255.255.0`", "resposta": "sim", "porque": "255 ainda está dentro do limite." }
+    ]
+  },
+  {
+    "id": "dns",
+    "tipo": "dns",
+    "titulo": "Simulador de DNS",
+    "dica": "Digite um site da lista (ou um nome errado) e veja o que acontece passo a passo. Os sites e números são exemplos.",
+    "lista": {
+      "escola.edu.br": "200.17.45.8",
+      "jogos.com.br": "177.52.10.33",
+      "videos.com.br": "143.90.7.201",
+      "mapas.com.br": "186.4.120.9",
+      "biblioteca.org.br": "189.23.64.150"
+    },
+    "exemplos": ["escola.edu.br", "jogos.com.br", "escolla.edu.br"]
+  },
+  {
+    "id": "ordem",
+    "tipo": "ordenar",
+    "titulo": "Coloque em ordem",
+    "dica": "Toque nas frases na ordem em que as coisas acontecem.",
+    "cenarios": [
+      {
+        "titulo": "📨 A viagem de uma mensagem",
+        "passos": [
+          "A mensagem é dividida em pacotes",
+          "Cada pacote recebe um cabeçalho com origem, destino e número",
+          "Os roteadores encaminham os pacotes, às vezes por caminhos diferentes",
+          "Os pacotes chegam fora de ordem e o destino pede o reenvio do que faltou",
+          "O destino organiza pelos números e monta a mensagem"
+        ],
+        "fim": "Dividir → numerar → enviar → conferir → montar."
+      },
+      {
+        "titulo": "🌐 Abrindo um site no celular",
+        "passos": [
+          "Você digita escola.edu.br no navegador",
+          "O celular pergunta ao DNS qual é o IP desse nome",
+          "O DNS responde: 200.17.45.8",
+          "O celular envia o pedido da página para 200.17.45.8",
+          "O servidor do site responde com a página em vários pacotes",
+          "O celular monta os pacotes e a página aparece"
+        ],
+        "fim": "Nome → DNS → IP → pedido → pacotes → página."
+      }
+    ]
+  }
+]

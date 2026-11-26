@@ -1,0 +1,49 @@
+[
+  {
+    "id": "tipo-dado",
+    "tipo": "classificar",
+    "titulo": "Pessoal ou sensível?",
+    "dica": "Pela LGPD, o dado sensível é o que pode gerar **discriminação**.",
+    "categorias": [
+      { "id": "P", "curto": "🪪 Pessoal", "rotulo": "Dado pessoal" },
+      { "id": "S", "curto": "🔒 Sensível", "rotulo": "Dado sensível" }
+    ],
+    "itens": [
+      { "texto": "Nome completo", "resposta": "P", "porque": "Identifica você, mas não é sensível." },
+      { "texto": "Foto do rosto usada para desbloquear o celular", "resposta": "S", "porque": "Dado biométrico é sensível." },
+      { "texto": "Endereço de casa", "resposta": "P", "porque": "Identifica você: dado pessoal." },
+      { "texto": "Resultado de um exame médico", "resposta": "S", "porque": "Saúde é dado sensível." },
+      { "texto": "Religião", "resposta": "S", "porque": "Pode gerar discriminação: sensível." },
+      { "texto": "Histórico de compras", "resposta": "P", "porque": "Dado pessoal (mas pode revelar coisas sensíveis)." },
+      { "texto": "Gravação da sua voz", "resposta": "S", "porque": "A voz é biométrica e pode ser clonada." },
+      { "texto": "Número do celular", "resposta": "P", "porque": "Identifica você: dado pessoal." }
+    ]
+  },
+  {
+    "id": "vies",
+    "tipo": "ordenar",
+    "titulo": "Como o viés entra na IA",
+    "dica": "Arraste para a ordem certa.",
+    "cenarios": [
+      { "titulo": "⚖️ Do mundo para a máquina", "passos": ["O mundo tem desigualdades", "Os dados da internet registram essas desigualdades", "A IA é treinada com esses dados", "A IA repete (ou exagera) o padrão", "A decisão da IA atinge pessoas reais"], "fim": "Por isso é preciso cuidar dos dados de treino e revisar as decisões." }
+    ]
+  },
+  {
+    "id": "protecao",
+    "tipo": "classificar",
+    "titulo": "Protege ou expõe?",
+    "dica": "Essa atitude **protege** seus dados ou te **expõe**?",
+    "categorias": [
+      { "id": "ok", "curto": "🛡️ Protege", "rotulo": "Protege" },
+      { "id": "no", "curto": "⚠️ Expõe", "rotulo": "Expõe" }
+    ],
+    "itens": [
+      { "texto": "Deixar a localização do jogo em “sempre permitir”", "resposta": "no", "porque": "O jogo não precisa saber onde você está o tempo todo." },
+      { "texto": "Ativar a verificação em duas etapas no WhatsApp", "resposta": "ok", "porque": "Mesmo com a senha, ninguém entra sem o código." },
+      { "texto": "Postar foto com o uniforme e o nome da escola", "resposta": "no", "porque": "Revela onde você está todo dia." },
+      { "texto": "Combinar uma palavra-código com a família", "resposta": "ok", "porque": "Desmascara golpes com voz clonada." },
+      { "texto": "Dar acesso aos contatos para um app de filtro de foto", "resposta": "no", "porque": "Um filtro não precisa dos seus contatos." },
+      { "texto": "Recusar que seus posts sejam usados para treinar a IA da plataforma", "resposta": "ok", "porque": "Você decide o uso dos seus dados." }
+    ]
+  }
+]
