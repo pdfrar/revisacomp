@@ -1,0 +1,28 @@
+[
+  {
+    "id": "maquina",
+    "tipo": "cesar",
+    "titulo": "Máquina de César",
+    "dica": "✍️ Escreva uma frase, mude a chave com − e +, e veja cada letra andar. Use 🔓 Decifrar para resolver os desafios.",
+    "chave": 3,
+    "exemplo": "NOS VEMOS NA FEIRA",
+    "desafios": [
+      { "cifrado": "ERD SURYD", "chave": 3, "resposta": "BOA PROVA", "explicacao": "Cada letra voltou 3 posições." },
+      { "cifrado": "F HMFAJ J T XJLWJIT", "chave": 5, "resposta": "A CHAVE E O SEGREDO", "explicacao": "Com a chave 5, cada letra volta 5." },
+      { "cifrado": "V JVTWBAHKVY ALZAH ABKV", "enunciado": "Sem chave! Teste as chaves (força bruta) até formar palavras:", "resposta": "O COMPUTADOR TESTA TUDO", "explicacao": "A chave era 7. Viu como dá para quebrar testando todas?" }
+    ]
+  },
+  {
+    "id": "cifre",
+    "tipo": "quiz",
+    "titulo": "Cifre e decifre de cabeça",
+    "dica": "Use a tabela do alfabeto lá em cima.",
+    "embaralhar": false,
+    "questoes": [
+      { "pergunta": "Cifre **SOL** com a chave 3.", "opcoes": ["VRO", "PLI", "TPM", "SOL"], "explicacao": "S+3 = V, O+3 = R, L+3 = O." },
+      { "pergunta": "Cifre **XYZ** com a chave 3.", "opcoes": ["ABC", "XYZ", "UVW", "ABD"], "explicacao": "Depois do Z volta para o A: X➜A, Y➜B, Z➜C." },
+      { "pergunta": "Decifre **FTDPMB** sabendo que a chave é 1.", "opcoes": ["ESCOLA", "GUEQNC", "ESCOLHA", "FTDPMB"], "explicacao": "Cada letra volta 1: F➜E, T➜S, D➜C, P➜O, M➜L, B➜A." },
+      { "pergunta": "Decifre **FLIUD GH FHVDU** (chave 3).", "opcoes": ["CIFRA DE CESAR", "CIFRA DO CESAR", "IOLXG JK IKYGX", "CHAVE DE CESAR"], "explicacao": "Voltando 3 posições em cada letra." }
+    ]
+  }
+]

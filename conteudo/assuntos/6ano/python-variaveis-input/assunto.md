@@ -18,6 +18,10 @@ nivel = 1          # a caixa nivel guarda o número 1
 ouro = 500         # a caixa ouro guarda 500
 ```
 
+:::destaque Atribuição
+`nivel = 1` se lê “nivel *recebe* 1”
+:::
+
 :::lembrar
 Em programação, o `=` **não** é o igual da matemática. Ele se chama **atribuição** e se lê “recebe”: pega o valor da direita e guarda na caixa da esquerda. `nivel = 1` → “nivel recebe 1”.
 :::
@@ -76,7 +80,12 @@ print("Olá,", nome)
 
 O texto entre aspas é a pergunta que aparece na tela. Deixe um espaço no final dela para a resposta não ficar grudada. O Python lê o código **de cima para baixo**: só vai para a linha 2 depois que o usuário aperta Enter.
 
-:::atencao A regra mais importante do input()
+:::destaque A regra mais importante
+`input()` sempre devolve *texto*
+Para fazer conta, converta: `int(input("..."))`
+:::
+
+:::atencao Por que isso importa?
 Ele **sempre devolve texto (str)**, mesmo quando a pessoa digita um número. Se o usuário digitar 10 e depois 5, `a + b` dá **105**, porque o Python colou os dois textos.
 :::
 

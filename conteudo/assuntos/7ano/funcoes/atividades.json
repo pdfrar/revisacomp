@@ -1,0 +1,43 @@
+[
+  {
+    "id": "def-chamada",
+    "tipo": "classificar",
+    "titulo": "Definir ou chamar?",
+    "dica": "Cada frase fala de **definir** (ensinar a função) ou de **chamar** (usar a função)?",
+    "categorias": [
+      { "id": "D", "curto": "🟣 Definir", "rotulo": "Definir" },
+      { "id": "C", "curto": "💜 Chamar", "rotulo": "Chamar" }
+    ],
+    "itens": [
+      { "texto": "Dar o nome “desenhar casa” e colocar os blocos dentro", "resposta": "D", "porque": "Isso é ensinar a função: definição." },
+      { "texto": "Colocar o bloco `desenhar casa()` embaixo de “quando executar”", "resposta": "C", "porque": "Usar o bloco com o nome é chamar." },
+      { "texto": "Faz o artista desenhar de verdade", "resposta": "C", "porque": "Só a chamada executa os blocos." },
+      { "texto": "Acontece uma vez só no programa", "resposta": "D", "porque": "A função é definida uma vez, mesmo que seja chamada muitas." },
+      { "texto": "Pode aparecer várias vezes no programa", "resposta": "C", "porque": "Você chama quantas vezes quiser." },
+      { "texto": "Mudar um número aqui muda o desenho em todos os lugares", "resposta": "D", "porque": "Todas as chamadas usam a mesma definição." }
+    ]
+  },
+  {
+    "id": "monte",
+    "tipo": "ordenar",
+    "titulo": "Monte o programa",
+    "dica": "Arraste os blocos para a ordem certa (no celular, segure em ⠿).",
+    "blocos": true,
+    "cenarios": [
+      { "titulo": "🏠 Duas casas lado a lado", "texto": "A função `desenhar casa` já está definida.", "passos": ["quando executar", "desenhar casa()", "pular para frente 200 pixels", "desenhar casa()"], "fim": "Evento primeiro, depois chamada, pulo e outra chamada." },
+      { "titulo": "🟪 A definição do quadrado", "passos": ["definir função desenhar quadrado", "repetir 4 vezes", "avançar 100 pixels", "virar à direita 90 graus"], "fim": "Nome da função, o repetir e, dentro dele, avançar e virar." }
+    ]
+  },
+  {
+    "id": "conte",
+    "tipo": "quiz",
+    "titulo": "Siga os blocos",
+    "dica": "Leia os blocos como o computador: cada chamada executa a função inteira.",
+    "embaralhar": false,
+    "questoes": [
+      { "pergunta": "A função `desenhar triângulo` tem **3** blocos “avançar”. Quantas vezes o artista avança neste programa?", "blocos": "quando executar\ndesenhar triângulo()\ndesenhar triângulo()", "opcoes": ["6", "3", "2", "9"], "explicacao": "2 chamadas × 3 avanços = 6." },
+      { "pergunta": "O que este programa desenha?", "blocos": "definir função desenhar quadrado\n  repetir 4 vezes\n    avançar 100 pixels\n    virar à direita 90 graus\nquando executar\navançar 50 pixels", "opcoes": ["Só uma linha de 50 pixels: a função nunca foi chamada", "Um quadrado", "Um quadrado e uma linha", "Nada, dá erro"], "explicacao": "Definir não desenha. Sem a chamada, os blocos da função não rodam." },
+      { "pergunta": "Quantos **quadrados** este programa desenha?", "blocos": "quando executar\nrepetir 3 vezes\n  desenhar quadrado()\n  pular para frente 120 pixels", "opcoes": ["3", "1", "4", "12"], "explicacao": "O repetir roda 3 vezes, e em cada volta há uma chamada." }
+    ]
+  }
+]

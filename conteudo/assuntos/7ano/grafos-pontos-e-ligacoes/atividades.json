@@ -1,0 +1,45 @@
+[
+  {
+    "id": "vertice-aresta",
+    "tipo": "classificar",
+    "titulo": "Vértice ou aresta?",
+    "dica": "Em cada situação, a coisa é um **ponto** (vértice) ou uma **ligação** (aresta)?",
+    "categorias": [
+      { "id": "V", "curto": "🔵 Vértice", "rotulo": "Vértice" },
+      { "id": "A", "curto": "➖ Aresta", "rotulo": "Aresta" }
+    ],
+    "itens": [
+      { "texto": "Rede social: uma **pessoa**", "resposta": "V", "porque": "Pessoas são os pontos da rede." },
+      { "texto": "Rede social: uma **amizade**", "resposta": "A", "porque": "A amizade liga duas pessoas." },
+      { "texto": "Mapa: um **cruzamento**", "resposta": "V", "porque": "Cruzamentos e lugares são os pontos." },
+      { "texto": "Mapa: um **trecho de rua**", "resposta": "A", "porque": "O trecho liga dois cruzamentos." },
+      { "texto": "Ônibus: uma **parada**", "resposta": "V", "porque": "As paradas são os pontos." },
+      { "texto": "Internet: um **cabo** entre dois computadores", "resposta": "A", "porque": "O cabo liga dois aparelhos." },
+      { "texto": "Internet: um **roteador**", "resposta": "V", "porque": "O roteador é um aparelho, um ponto da rede." },
+      { "texto": "Voos: a **rota** Recife–São Paulo", "resposta": "A", "porque": "A rota liga dois aeroportos." }
+    ]
+  },
+  {
+    "id": "grau",
+    "tipo": "quiz",
+    "titulo": "Leia o grafo",
+    "dica": "Use o grafo dos amigos abaixo para responder.",
+    "embaralhar": false,
+    "questoes": [
+      { "pergunta": "No grafo de amizades: Lia–Rui, Lia–Téo, Rui–Téo, Téo–Ivo, Ivo–Bia. Qual é o **grau de Téo**?", "opcoes": ["3", "2", "1", "4"], "explicacao": "Téo está ligado a Lia, Rui e Ivo: 3 arestas." },
+      { "pergunta": "No mesmo grafo (Lia–Rui, Lia–Téo, Rui–Téo, Téo–Ivo, Ivo–Bia), quantas **arestas** existem?", "opcoes": ["5", "4", "6", "10"], "explicacao": "São 5 amizades. Confira: graus 2 + 2 + 3 + 2 + 1 = 10, o dobro de 5." },
+      { "pergunta": "Qual é o **menor caminho** de Lia até Bia?", "opcoes": ["Lia, Téo, Ivo, Bia (3 arestas)", "Lia, Rui, Téo, Ivo, Bia (4 arestas)", "Lia, Bia (1 aresta)", "Não existe caminho"], "explicacao": "Indo direto pelo Téo, são 3 arestas. Passar pelo Rui só aumenta." },
+      { "pergunta": "Quais arestas são **pontes** nesse grafo?", "opcoes": ["Téo–Ivo e Ivo–Bia", "Lia–Rui", "Lia–Téo e Rui–Téo", "Nenhuma"], "explicacao": "Sem Téo–Ivo, Ivo e Bia ficam separados do grupo. Sem Ivo–Bia, Bia fica isolada. Já o triângulo Lia–Rui–Téo tem caminho de reserva." }
+    ]
+  },
+  {
+    "id": "ordem",
+    "tipo": "ordenar",
+    "titulo": "Monte o caminho",
+    "dica": "Arraste os lugares do bairro na ordem do **menor caminho** (segure em ⠿ no celular).",
+    "cenarios": [
+      { "titulo": "🏫 Da Escola até o Posto de saúde", "texto": "(o menor caminho pela Igreja)", "passos": ["Escola", "Praça", "Igreja", "Quadra", "Posto de saúde"], "fim": "4 arestas. O Posto só tem uma rua: a da Quadra." },
+      { "titulo": "🍞 Da Padaria até o Mercado", "passos": ["Padaria", "Praça", "Mercado"], "fim": "2 arestas: a Praça liga os dois." }
+    ]
+  }
+]

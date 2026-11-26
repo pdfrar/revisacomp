@@ -1,10 +1,10 @@
 {
   "titulo": "Prova do 4º bimestre",
   "data": null,
-  "observacao": "Estude os três assuntos e faça o simulado pelo menos duas vezes.",
+  "observacao": "Estude os três assuntos e faça o simulado pelo menos duas vezes. A prova tem 7 questões fechadas e 3 abertas, igual ao simulado.",
   "assuntos": [
-    { "id": "6ano/eps", "questoes": 7 },
-    { "id": "6ano/python-variaveis-input", "questoes": 7 },
-    { "id": "6ano/pacotes-ip-dns", "questoes": 6 }
+    "6ano/eps",
+    "6ano/python-variaveis-input",
+    "6ano/pacotes-ip-dns"
   ]
 }

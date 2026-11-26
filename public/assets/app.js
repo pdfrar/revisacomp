@@ -95,6 +95,7 @@
         var box = h("div", { class: "q" });
         box.appendChild(h("div", { class: "q-title" }, '<span class="q-num">' + (qi + 1) + ".</span>" + q.pergunta));
         if (q.codigo) box.insertAdjacentHTML("beforeend", codeBlock(q.codigo));
+        if (q.blocos) box.insertAdjacentHTML("beforeend", '<div class="q-blocos">' + q.blocos + "</div>");
         var opts = h("div", { class: "opts", role: "group" });
         var order = shuffle(q.opcoes.map(function (o, i) { return { text: o, ok: i === 0 }; }));
         var buttons = order.map(function (o) {
@@ -123,16 +124,19 @@
 
       var res = h("div", { class: "result" });
       el.appendChild(res);
-      var again = h("button", { type: "button", class: "btn-ghost", style: "margin-top:12px" }, "↺ Refazer do começo");
-      again.addEventListener("click", function () {
-        if (cfg.onRestart) cfg.onRestart(); else render();
-        el.scrollIntoView({ behavior: "smooth" });
-      });
-      el.appendChild(again);
+      if (!cfg.compacto) {
+        var again = h("button", { type: "button", class: "btn-ghost", style: "margin-top:12px" }, "↺ Refazer do começo");
+        again.addEventListener("click", function () {
+          if (cfg.onRestart) cfg.onRestart(); else render();
+          el.scrollIntoView({ behavior: "smooth" });
+        });
+        el.appendChild(again);
+      }
 
       function finish() {
         if (cfg.key) save(cfg.assunto, cfg.key, right, qs.length);
         var pct = right / qs.length;
+        if (cfg.compacto) { if (cfg.onFinish) cfg.onFinish(right, qs.length); return; }
         res.className = "result " + (pct >= 0.7 ? "ok" : "no");
         res.textContent = pct === 1 ? "Gabaritou! " + right + " de " + qs.length + "."
           : pct >= 0.7 ? "Muito bem: " + right + " de " + qs.length + ". Releia as explicações das que errou."
@@ -192,51 +196,141 @@
     render();
   }
 
-  /* ================= Colocar em ordem ================= */
+  // Mesma regra do build.js: a cor do bloco vem do começo do texto
+  function categoriaBloco(t) {
+    if (/^quando\b/i.test(t)) return "evento";
+    if (/^(definir função|função)/i.test(t)) return "funcao";
+    if (/^(repetir|repita|enquanto|para cada|para sempre)/i.test(t)) return "laco";
+    if (/^(se|senão)\s/i.test(t)) return "logica";
+    if (/^chamar/i.test(t) || /\(\)\s*$/.test(t)) return "chamada";
+    return "acao";
+  }
+
+  /* ================= Colocar em ordem (arrastar) =================
+     Os cartões aparecem embaralhados. O aluno arrasta para a ordem certa
+     (no celular, segurando a alça ⠿) e toca em "Conferir". */
   function ordenar(el, cfg) {
     var idx = 0, totalErrors = 0;
     function render() {
       var sc = cfg.cenarios[idx];
       var scoreEl = header(el, cfg.titulo, cfg.dica);
-      scoreEl.textContent = "Cenário " + (idx + 1) + " de " + cfg.cenarios.length;
-      el.appendChild(h("p", null, "<b>" + sc.titulo + "</b>" + (sc.texto ? " " + sc.texto : "")));
-      var slots = h("div", { class: "slots" });
-      var slotEls = sc.passos.map(function (s, i) {
-        var lbl = cfg.rotulos ? cfg.rotulos[i] : "";
-        var sl = h("div", { class: "slot" }, (lbl ? '<span class="slot-label">' + esc(lbl) + "</span>" : "") + '<span class="slot-text">&nbsp;</span>');
-        slots.appendChild(sl);
-        return sl;
-      });
-      el.appendChild(slots);
-      var chips = h("div", { class: "chips" });
-      var next = 0, errors = 0;
-      var res = h("div", { class: "result" });
-      shuffle(sc.passos.map(function (s, i) { return { s: s, i: i }; })).forEach(function (o) {
-        var b = h("button", { type: "button" }, o.s);
-        b.addEventListener("click", function () {
-          if (o.i === next) {
-            slotEls[next].querySelector(".slot-text").innerHTML = o.s;
-            slotEls[next].classList.add("filled");
-            b.remove();
-            next++;
-            res.className = "result"; res.textContent = "";
-            if (next === sc.passos.length) finishScenario();
-          } else {
-            errors++; totalErrors++;
-            bump(b);
-            res.className = "result no";
-            res.textContent = "Esse não vai na posição " + (next + 1) + (cfg.rotulos ? " (" + cfg.rotulos[next] + ")" : "") + ". Tente outro.";
-          }
-        });
-        chips.appendChild(b);
-      });
-      el.appendChild(chips);
+      scoreEl.textContent = cfg.cenarios.length > 1 ? "Cenário " + (idx + 1) + " de " + cfg.cenarios.length : "Arraste";
+      el.appendChild(h("p", { class: "ord-titulo" }, "<b>" + sc.titulo + "</b>" + (sc.texto ? " " + sc.texto : "")));
+      var wrap = h("div", { class: "ord-wrap" + (cfg.rotulos ? " com-rotulos" : "") });
+      if (cfg.rotulos) {
+        var rot = h("ol", { class: "ord-rotulos", "aria-hidden": "true" });
+        cfg.rotulos.forEach(function (r) { rot.appendChild(h("li", null, esc(r))); });
+        wrap.appendChild(rot);
+      }
+      var list = h("ol", { class: "ord-lista" + (cfg.blocos ? " ord-blocos" : "") });
+      var ordem = sc.passos.map(function (s, i) { return i; });
+      do { ordem = shuffle(ordem); } while (sc.passos.length > 1 && ordem.every(function (v, i) { return v === i; }));
+      ordem.forEach(function (i) { list.appendChild(card(i)); });
+      wrap.appendChild(list);
+      el.appendChild(wrap);
+      var row = h("div", { class: "row", style: "margin-top:12px" });
+      var check = h("button", { type: "button", class: "btn-primary" }, "✔ Conferir a ordem");
+      row.appendChild(check);
+      el.appendChild(row);
+      var res = h("div", { class: "result", "aria-live": "polite" });
       el.appendChild(res);
+      var errors = 0, solved = false;
+
+      function card(i) {
+        var li = h("li", { class: "ord-item", "data-i": String(i) });
+        var handle = h("span", { class: "ord-alca", "aria-hidden": "true" }, "⠿");
+        var txt = h("span", { class: "ord-txt" }, cfg.blocos ? '<span class="blk blk-' + categoriaBloco(sc.passos[i].replace(/<[^>]+>/g, "")) + '">' + sc.passos[i] + "</span>" : sc.passos[i]);
+        var setas = h("span", { class: "ord-setas" });
+        var up = h("button", { type: "button", class: "ord-seta", "aria-label": "Subir" }, "▲");
+        var dn = h("button", { type: "button", class: "ord-seta", "aria-label": "Descer" }, "▼");
+        up.addEventListener("click", function () { if (li.previousElementSibling) { list.insertBefore(li, li.previousElementSibling); mexeu(); } });
+        dn.addEventListener("click", function () { if (li.nextElementSibling) { list.insertBefore(li.nextElementSibling, li); mexeu(); } });
+        setas.appendChild(up); setas.appendChild(dn);
+        li.appendChild(handle); li.appendChild(txt); li.appendChild(setas);
+        arrastavel(li, handle);
+        return li;
+      }
+      function mexeu() {
+        if (solved) return;
+        res.className = "result"; res.textContent = "";
+        Array.prototype.forEach.call(list.children, function (c) { c.classList.remove("certo", "errado"); });
+      }
+      function arrastavel(li, handle) {
+        li.addEventListener("pointerdown", function (e) {
+          if (solved || e.button > 0) return;
+          if (e.target.closest(".ord-seta")) return;
+          if (e.pointerType !== "mouse" && e.target !== handle) return; // no toque, só pela alça (para a página continuar rolando)
+          e.preventDefault();
+          var r = li.getBoundingClientRect();
+          var dy = e.clientY - r.top;
+          var ph = h("li", { class: "ord-vaga" });
+          ph.style.height = r.height + "px";
+          list.insertBefore(ph, li);
+          li.classList.add("arrastando");
+          li.style.width = r.width + "px";
+          li.style.left = r.left + "px";
+          li.style.top = r.top + "px";
+          document.body.appendChild(li);
+          var lastY = e.clientY, raf = 0;
+          function move(ev) {
+            lastY = ev.clientY;
+            li.style.top = (ev.clientY - dy) + "px";
+            var sib = Array.prototype.filter.call(list.children, function (c) { return c !== ph; });
+            var depois = null;
+            for (var k = 0; k < sib.length; k++) {
+              var b = sib[k].getBoundingClientRect();
+              if (ev.clientY < b.top + b.height / 2) { depois = sib[k]; break; }
+            }
+            list.insertBefore(ph, depois);
+            if (!raf) raf = requestAnimationFrame(rolar);
+          }
+          function rolar() {
+            raf = 0;
+            var m = 70, v = 0;
+            if (lastY < m) v = -10; else if (lastY > window.innerHeight - m) v = 10;
+            if (v) { window.scrollBy(0, v); raf = requestAnimationFrame(rolar); }
+          }
+          function up() {
+            document.removeEventListener("pointermove", move);
+            document.removeEventListener("pointerup", up);
+            document.removeEventListener("pointercancel", up);
+            if (raf) cancelAnimationFrame(raf);
+            li.classList.remove("arrastando");
+            li.style.width = li.style.left = li.style.top = "";
+            list.insertBefore(li, ph);
+            ph.remove();
+            mexeu();
+          }
+          document.addEventListener("pointermove", move);
+          document.addEventListener("pointerup", up);
+          document.addEventListener("pointercancel", up);
+        });
+      }
+      check.addEventListener("click", function () {
+        if (solved) return;
+        var itens = Array.prototype.slice.call(list.children);
+        var certos = 0;
+        itens.forEach(function (c, pos) {
+          var ok = +c.getAttribute("data-i") === pos;
+          c.classList.toggle("certo", ok); c.classList.toggle("errado", !ok);
+          if (ok) certos++;
+        });
+        if (certos === itens.length) {
+          solved = true;
+          list.classList.add("resolvida");
+          res.className = "result ok";
+          res.innerHTML = (errors === 0 ? "Perfeito, de primeira! " : "Agora sim! ") + (sc.fim || "");
+          finishScenario();
+        } else {
+          errors++; totalErrors++;
+          bump(list);
+          res.className = "result no";
+          res.textContent = certos + " de " + itens.length + " no lugar certo (em verde). Mude os vermelhos e confira de novo.";
+        }
+      });
 
       function finishScenario() {
-        res.className = "result ok";
-        res.innerHTML = (errors === 0 ? "Perfeito, sem erros! " : "Completo! ") + (sc.fim || "");
-        var row = h("div", { class: "row", style: "margin-top:12px" });
+        check.remove();
         if (idx < cfg.cenarios.length - 1) {
           var nb = h("button", { type: "button", class: "btn-primary" }, "Próximo cenário →");
           nb.addEventListener("click", function () { idx++; render(); });
@@ -244,12 +338,11 @@
         } else {
           var n = cfg.cenarios.length;
           save(cfg.assunto, cfg.key, Math.max(0, n - Math.ceil(totalErrors / 2)), n);
-          res.innerHTML += "<br>Você terminou todos os cenários" + (totalErrors ? " com " + totalErrors + " tentativa(s) errada(s)." : " sem nenhum erro!");
-          var rb = h("button", { type: "button", class: "btn-ghost" }, "↺ Refazer todos");
+          if (n > 1) res.innerHTML += "<br>Você terminou todos os cenários" + (totalErrors ? " com " + totalErrors + " conferência(s) errada(s)." : " sem nenhum erro!");
+          var rb = h("button", { type: "button", class: "btn-ghost" }, "↺ Refazer");
           rb.addEventListener("click", function () { idx = 0; totalErrors = 0; render(); });
           row.appendChild(rb);
         }
-        el.appendChild(row);
       }
     }
     render();
@@ -733,8 +826,251 @@
     highlightAll(el);
   }
 
+  /* ================= Questões abertas =================
+     O aluno escreve, vê a resposta esperada e se corrige (certo / em parte / errado).
+     Para ligar uma IA no futuro: defina window.RevisaComp.corretor = async function (q, texto) {
+       return { nota: 1 | 0.5 | 0, comentario: "..." };   // ou null para cair na autocorreção
+     } */
+  var NOTAS = [{ v: 1, t: "✔ Acertei", c: "right" }, { v: 0.5, t: "◐ Em parte", c: "half" }, { v: 0, t: "✘ Errei", c: "wrong" }];
+  function questaoAberta(box, q, num, onNota) {
+    box.classList.add("q", "q-aberta");
+    box.appendChild(h("div", { class: "q-title" }, '<span class="q-num">' + num + '.</span><span class="tag-aberta">aberta</span> ' + q.pergunta));
+    if (q.codigo) box.insertAdjacentHTML("beforeend", codeBlock(q.codigo));
+    if (q.blocos) box.insertAdjacentHTML("beforeend", '<div class="q-blocos">' + q.blocos + "</div>");
+    var ta = h("textarea", { class: "resp-aberta", rows: "3", placeholder: "Escreva sua resposta com suas palavras…", "aria-label": "Sua resposta" });
+    var enviar = h("button", { type: "button", class: "btn-primary" }, "Enviar resposta");
+    var aviso = h("p", { class: "hint", style: "margin:6px 0 0" });
+    box.appendChild(ta);
+    var row = h("div", { class: "row", style: "margin-top:8px" }); row.appendChild(enviar); box.appendChild(row);
+    box.appendChild(aviso);
+    enviar.addEventListener("click", function () {
+      var texto = ta.value.trim();
+      if (texto.length < 3) { aviso.textContent = "✍️ Escreva algo antes de enviar."; ta.focus(); return; }
+      aviso.textContent = "";
+      ta.readOnly = true; enviar.remove();
+      var corretor = window.RevisaComp && window.RevisaComp.corretor;
+      if (corretor) {
+        aviso.textContent = "Corrigindo…";
+        Promise.resolve(corretor(q, texto)).then(function (r) {
+          aviso.textContent = "";
+          if (r && typeof r.nota === "number") mostrar(r); else autocorrecao();
+        }, function () { aviso.textContent = ""; autocorrecao(); });
+      } else autocorrecao();
+    });
+    function gabarito() {
+      return '<div class="gabarito"><b>Resposta esperada</b>' + q.gabarito +
+        (q.criterios && q.criterios.length ? '<p class="crit-t">Sua resposta precisa ter:</p><ul class="criterios">' + q.criterios.map(function (c) { return "<li>" + c + "</li>"; }).join("") + "</ul>" : "") + "</div>";
+    }
+    function mostrar(r) {
+      var n = NOTAS.filter(function (x) { return x.v === r.nota; })[0] || NOTAS[2];
+      box.insertAdjacentHTML("beforeend", gabarito() + '<div class="explain ' + (r.nota >= 1 ? "ok" : "no") + '"><b>' + n.t + "</b>" + esc(r.comentario || "") + "</div>");
+      onNota(r.nota);
+    }
+    function autocorrecao() {
+      box.insertAdjacentHTML("beforeend", gabarito());
+      highlightAll(box);
+      box.appendChild(h("p", { class: "auto-t" }, "Compare com a sua. Seja honesto: como foi?"));
+      var opts = h("div", { class: "auto-opts" });
+      var bs = NOTAS.map(function (n) {
+        var b = h("button", { type: "button" }, n.t);
+        b.addEventListener("click", function () {
+          bs.forEach(function (x) { x.disabled = true; x.classList.add("dim"); });
+          b.classList.remove("dim"); b.classList.add(n.c);
+          onNota(n.v);
+        });
+        opts.appendChild(b);
+        return b;
+      });
+      box.appendChild(opts);
+    }
+  }
+
+  function abertas(el, cfg) {
+    var scoreEl = header(el, cfg.titulo || "Perguntas abertas", cfg.dica || "Na prova, 3 questões são assim. ✍️ Escreva, depois confira.");
+    var qs = cfg.questoes, pts = 0, feitas = 0;
+    scoreEl.textContent = "✍️ " + qs.length + " perguntas";
+    qs.forEach(function (q, i) {
+      var box = h("div");
+      el.appendChild(box);
+      questaoAberta(box, q, i + 1, function (n) {
+        pts += n; feitas++;
+        scoreEl.textContent = (pts % 1 ? pts.toFixed(1).replace(".", ",") : pts) + " de " + feitas + " pontos";
+        if (feitas === qs.length) save(cfg.assunto, cfg.key, pts, qs.length);
+      });
+    });
+  }
+
+  /* ================= Colorir o grafo ================= */
+  var CORES = ["#ffffff", "#4b4ded", "#ffb020", "#14b88f", "#e0457b"];
+  function grafoBase(cfg) {
+    var V = cfg.vertices, byName = {};
+    V.forEach(function (v) { byName[v.nome] = v; });
+    function larg(v) { return Math.max(36, v.nome.length * 8.4 + 24); }
+    var xs = [], ys = [];
+    V.forEach(function (v) { xs.push(v.x - larg(v) / 2, v.x + larg(v) / 2); ys.push(v.y - 18, v.y + 18); });
+    var x0 = Math.min.apply(null, xs) - 6, y0 = Math.min.apply(null, ys) - 6;
+    var w = Math.max.apply(null, xs) - x0 + 6, hh = Math.max.apply(null, ys) - y0 + 6;
+    var NS = "http://www.w3.org/2000/svg";
+    var svg = document.createElementNS(NS, "svg");
+    svg.setAttribute("viewBox", x0 + " " + y0 + " " + w + " " + hh);
+    svg.setAttribute("class", "grafo grafo-int");
+    var lines = cfg.arestas.map(function (e) {
+      var a = byName[e[0]], b = byName[e[1]];
+      var l = document.createElementNS(NS, "line");
+      l.setAttribute("x1", a.x); l.setAttribute("y1", a.y); l.setAttribute("x2", b.x); l.setAttribute("y2", b.y);
+      l.setAttribute("class", "g-aresta");
+      svg.appendChild(l);
+      return { el: l, a: e[0], b: e[1] };
+    });
+    var nodes = V.map(function (v) {
+      var g = document.createElementNS(NS, "g");
+      g.setAttribute("class", "g-v g-click");
+      g.setAttribute("tabindex", "0");
+      g.setAttribute("role", "button");
+      g.setAttribute("aria-label", v.nome);
+      var r = document.createElementNS(NS, "rect");
+      r.setAttribute("x", v.x - larg(v) / 2); r.setAttribute("y", v.y - 17); r.setAttribute("width", larg(v)); r.setAttribute("height", 34); r.setAttribute("rx", 17);
+      var t = document.createElementNS(NS, "text");
+      t.setAttribute("x", v.x); t.setAttribute("y", v.y + 5); t.textContent = v.nome;
+      g.appendChild(r); g.appendChild(t); svg.appendChild(g);
+      return { v: v, g: g, r: r, t: t };
+    });
+    return { svg: svg, lines: lines, nodes: nodes };
+  }
+
+  function colorir(el, cfg) {
+    var scoreEl = header(el, cfg.titulo, cfg.dica);
+    var max = cfg.cores || 4;
+    var base = grafoBase(cfg);
+    var cor = {};
+    var leg = h("div", { class: "cores-leg" });
+    for (var c = 1; c <= max; c++) leg.appendChild(h("span", null, '<i style="background:' + CORES[c] + '"></i>' + esc((cfg.rotulosCores || [])[c - 1] || "Cor " + c)));
+    el.appendChild(leg);
+    var holder = h("div", { class: "grafo-holder" });
+    holder.appendChild(base.svg);
+    el.appendChild(holder);
+    var res = h("div", { class: "result", "aria-live": "polite" });
+    var row = h("div", { class: "row" });
+    var limpar = h("button", { type: "button", class: "btn-ghost btn-small" }, "↺ Limpar");
+    row.appendChild(limpar);
+    el.appendChild(row);
+    el.appendChild(res);
+    var feito = false;
+    base.nodes.forEach(function (n) {
+      function trocar() { cor[n.v.nome] = ((cor[n.v.nome] || 0) + 1) % (max + 1); pintar(); }
+      n.g.addEventListener("click", trocar);
+      n.g.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); trocar(); } });
+    });
+    limpar.addEventListener("click", function () { cor = {}; pintar(); });
+    function pintar() {
+      var usadas = {}, semCor = 0, conflitos = 0;
+      base.nodes.forEach(function (n) {
+        var k = cor[n.v.nome] || 0;
+        n.r.style.fill = CORES[k];
+        n.r.style.stroke = k ? CORES[k] : "";
+        n.t.style.fill = k === 2 ? "#141b34" : k ? "#fff" : "";
+        if (k) usadas[k] = 1; else semCor++;
+      });
+      base.lines.forEach(function (l) {
+        var bad = cor[l.a] && cor[l.a] === cor[l.b];
+        l.el.classList.toggle("conflito", !!bad);
+        if (bad) conflitos++;
+      });
+      var nu = Object.keys(usadas).length;
+      scoreEl.textContent = nu + " cor(es) · " + conflitos + " conflito(s)";
+      if (conflitos) { res.className = "result no"; res.textContent = "⚠️ Vértices ligados com a mesma cor (linha vermelha). Troque uma das cores."; }
+      else if (semCor) { res.className = "result"; res.textContent = ""; }
+      else if (cfg.minimo && nu > cfg.minimo) { res.className = "result no"; res.textContent = "Sem conflitos, mas com " + nu + " cores. Dá para usar menos!"; }
+      else {
+        res.className = "result ok";
+        res.innerHTML = "🎉 Isso! " + nu + " cores, sem conflito." + (cfg.fim ? " " + cfg.fim : "");
+        if (!feito) { feito = true; save(cfg.assunto, cfg.key, 1, 1); }
+      }
+    }
+    pintar();
+  }
+
+  /* ================= Cifra de César ================= */
+  var ABC = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  function semAcento(s) { return s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase(); }
+  function cesarCifra(s, k) {
+    k = ((k % 26) + 26) % 26;
+    return semAcento(s).replace(/[A-Z]/g, function (c) { return ABC[(ABC.indexOf(c) + k) % 26]; });
+  }
+  function cesar(el, cfg) {
+    var scoreEl = header(el, cfg.titulo || "Máquina de César", cfg.dica);
+    scoreEl.textContent = "🔐";
+    var chave = cfg.chave || 3, modo = "cifrar";
+    var modos = h("div", { class: "seg" });
+    var bC = h("button", { type: "button", class: "on" }, "🔒 Cifrar");
+    var bD = h("button", { type: "button" }, "🔓 Decifrar");
+    modos.appendChild(bC); modos.appendChild(bD);
+    el.appendChild(modos);
+    var input = h("input", { type: "text", value: cfg.exemplo || "NOS VEMOS NA FEIRA", "aria-label": "Texto", autocomplete: "off", autocapitalize: "characters", spellcheck: "false", class: "cesar-in" });
+    el.appendChild(input);
+    var kRow = h("div", { class: "cesar-chave" });
+    var menos = h("button", { type: "button", "aria-label": "Diminuir chave" }, "−");
+    var kVal = h("span", { class: "k-val", "aria-live": "polite" });
+    var mais = h("button", { type: "button", "aria-label": "Aumentar chave" }, "+");
+    kRow.appendChild(h("span", null, "Chave"));
+    kRow.appendChild(menos); kRow.appendChild(kVal); kRow.appendChild(mais);
+    el.appendChild(kRow);
+    var tira = h("div", { class: "cesar-tira", "aria-hidden": "true" });
+    el.appendChild(tira);
+    var out = h("div", { class: "cesar-out", "aria-live": "polite" });
+    el.appendChild(out);
+    function upd() {
+      kVal.textContent = chave;
+      var k = modo === "cifrar" ? chave : -chave;
+      tira.innerHTML = ABC.split("").map(function (c) {
+        return "<span><b>" + c + "</b><i>" + cesarCifra(c, k) + "</i></span>";
+      }).join("");
+      out.textContent = cesarCifra(input.value, k) || " ";
+    }
+    function setModo(m) { modo = m; bC.classList.toggle("on", m === "cifrar"); bD.classList.toggle("on", m === "decifrar"); upd(); }
+    bC.addEventListener("click", function () { setModo("cifrar"); });
+    bD.addEventListener("click", function () { setModo("decifrar"); });
+    menos.addEventListener("click", function () { chave = chave <= 1 ? 25 : chave - 1; upd(); });
+    mais.addEventListener("click", function () { chave = chave >= 25 ? 1 : chave + 1; upd(); });
+    input.addEventListener("input", upd);
+    upd();
+
+    if (cfg.desafios && cfg.desafios.length) {
+      el.appendChild(h("h4", { class: "cesar-h" }, "🕵️ Desafios"));
+      var feitos = 0;
+      cfg.desafios.forEach(function (d, i) {
+        var box = h("div", { class: "q" });
+        box.appendChild(h("div", { class: "q-title" }, '<span class="q-num">' + (i + 1) + ".</span>" + (d.enunciado || (d.chave ? "Decifre (chave " + d.chave + "):" : "Decifre sem saber a chave:"))));
+        box.appendChild(h("div", { class: "cesar-msg" }, esc(d.cifrado)));
+        var r = h("div", { class: "row" });
+        var inp = h("input", { type: "text", "aria-label": "Sua resposta", autocomplete: "off", autocapitalize: "characters", spellcheck: "false" });
+        var ok = h("button", { type: "button", class: "btn-primary" }, "Conferir");
+        r.appendChild(inp); r.appendChild(ok); box.appendChild(r);
+        var fb = h("div", { class: "result" });
+        box.appendChild(fb);
+        var acertou = false;
+        function conferir() {
+          if (acertou) return;
+          var limpa = function (s) { return semAcento(s).replace(/[^A-Z]/g, ""); };
+          if (limpa(inp.value) === limpa(d.resposta)) {
+            acertou = true; feitos++;
+            fb.className = "result ok"; fb.innerHTML = "🔓 Decifrado! " + (d.explicacao || "");
+            inp.readOnly = true; ok.disabled = true;
+            if (feitos === cfg.desafios.length) save(cfg.assunto, cfg.key, 1, 1);
+          } else {
+            fb.className = "result no"; fb.textContent = "Ainda não. Use a máquina acima no modo 🔓 Decifrar" + (d.chave ? " com a chave " + d.chave + "." : " e teste chaves até formar palavras.");
+          }
+        }
+        ok.addEventListener("click", conferir);
+        inp.addEventListener("keydown", function (e) { if (e.key === "Enter") conferir(); });
+        el.appendChild(box);
+      });
+    }
+  }
+
   /* ================= Montagem da página ================= */
-  var COMPONENTES = { quiz: quiz, classificar: classificar, ordenar: ordenar, pacotes: pacotes, dns: dns, terminal: terminal, tarefa: tarefa };
+  var COMPONENTES = { quiz: quiz, classificar: classificar, ordenar: ordenar, pacotes: pacotes, dns: dns, terminal: terminal, tarefa: tarefa, abertas: abertas, colorir: colorir, cesar: cesar };
+  function eAberta(q) { return q.tipo === "aberta"; }
 
   function montarAtividades(P) {
     (P.atividades || []).forEach(function (a, i) {
@@ -745,8 +1081,15 @@
       try { fn(el, a); } catch (e) { el.textContent = "Erro ao montar esta atividade."; if (window.console) console.error(e); }
     });
     var qel = document.getElementById("banco");
-    if (qel && P.banco && P.banco.length) {
-      quiz(qel, { titulo: "Quiz do assunto", dica: "Todas as questões deste assunto. No simulado da prova, algumas delas são sorteadas.", questoes: P.banco, assunto: P.id, key: P.id + "#banco" });
+    var fech = (P.banco || []).filter(function (q) { return !eAberta(q); });
+    var abs = (P.banco || []).filter(eAberta);
+    if (qel && fech.length) {
+      quiz(qel, { titulo: "Quiz do assunto", dica: "🎯 Questões fechadas, como as da prova.", questoes: fech, assunto: P.id, key: P.id + "#banco" });
+    }
+    if (qel && abs.length) {
+      var ael = h("div");
+      qel.parentNode.insertBefore(ael, qel.nextSibling);
+      abertas(ael, { titulo: "Perguntas abertas", questoes: abs, assunto: P.id, key: P.id + "#abertas" });
     }
   }
 
@@ -763,42 +1106,81 @@
       startBox.hidden = true;
       begin();
     });
+    // Sorteia n questões, revezando entre os assuntos para todos aparecerem
+    function sortear(filtro, n) {
+      var pools = shuffle(P.assuntos).map(function (a) {
+        return shuffle(a.banco.filter(filtro)).map(function (q) { var c = Object.assign({}, q); c._a = a.id; return c; });
+      });
+      var out = [];
+      while (out.length < n && pools.some(function (p) { return p.length; })) {
+        pools.forEach(function (p) { if (out.length < n && p.length) out.push(p.shift()); });
+      }
+      return out;
+    }
     function begin() {
-      var per = {}, qs = [];
-      P.assuntos.forEach(function (a) {
-        per[a.id] = { titulo: a.titulo, url: a.url, ok: 0, n: 0 };
-        shuffle(a.banco).slice(0, a.questoes).forEach(function (q) {
-          var c = Object.assign({}, q); c._a = a.id; qs.push(c);
+      var per = {};
+      P.assuntos.forEach(function (a) { per[a.id] = { titulo: a.titulo, url: a.url, ok: 0, n: 0 }; });
+      var fech = sortear(function (q) { return !eAberta(q); }, P.fechadas);
+      var abs = sortear(eAberta, P.abertas);
+      var total = fech.length + abs.length;
+      var pontosF = 0, pontosA = 0, abertasFeitas = 0;
+      sim.hidden = false; cert.hidden = true; cert.innerHTML = "";
+      sim.innerHTML = "";
+      sim.className = "";
+      var parte1 = h("div"), parte2 = h("div", { class: "activity", hidden: "" });
+      sim.appendChild(parte1); sim.appendChild(parte2);
+      quiz(parte1, {
+        titulo: "Parte 1 · " + fech.length + " fechadas",
+        dica: "Toque na alternativa certa.",
+        questoes: fech,
+        embaralhar: false,
+        compacto: true,
+        onAnswer: function (q, ok) { per[q._a].n++; if (ok) { per[q._a].ok++; pontosF++; } },
+        onFinish: function () {
+          if (!abs.length) return fim();
+          parte2.hidden = false;
+          parte2.scrollIntoView({ behavior: "smooth" });
+        }
+      });
+      var head = h("div", { class: "activity-head" }, "<h3>Parte 2 · " + abs.length + " abertas</h3>");
+      var sc2 = h("span", { class: "score" }, "✍️ escreva");
+      head.appendChild(sc2);
+      parte2.appendChild(head);
+      parte2.appendChild(h("p", { class: "hint" }, "Escreva com suas palavras. Depois compare com a resposta esperada."));
+      abs.forEach(function (q, i) {
+        var box = h("div");
+        parte2.appendChild(box);
+        questaoAberta(box, q, fech.length + i + 1, function (nota) {
+          per[q._a].n++; per[q._a].ok += nota; pontosA += nota; abertasFeitas++;
+          if (abertasFeitas === abs.length) fim();
         });
       });
-      sim.hidden = false; cert.hidden = true; cert.innerHTML = "";
-      quiz(sim, {
-        titulo: "Simulado · " + qs.length + " questões",
-        dica: "Cada tentativa sorteia questões diferentes. Leia a explicação depois de cada resposta.",
-        questoes: qs,
-        onAnswer: function (q, ok) { per[q._a].n++; if (ok) per[q._a].ok++; },
-        onFinish: function (right, total) {
-          save(P.id, P.id + "#simulado", right, total);
-          showCert(right, total, per);
-        },
-        onRestart: begin
-      });
+      function fim() {
+        var right = pontosF + pontosA;
+        save(P.id, P.id + "#simulado", right, total);
+        showCert(right, total, per, pontosF, fech.length, pontosA, abs.length);
+      }
+      var again = h("button", { type: "button", class: "btn-ghost", style: "margin-top:14px" }, "↺ Sortear outro simulado");
+      again.addEventListener("click", function () { begin(); });
+      sim.appendChild(again);
       sim.scrollIntoView({ behavior: "smooth" });
     }
-    function showCert(right, total, per) {
+    function fmtN(x) { return (Math.round(x * 10) / 10).toString().replace(".", ","); }
+    function showCert(right, total, per, pf, nf, pa, na) {
       var pct = Math.round(right / total * 100);
       var now = new Date();
       var keys = Object.keys(per);
       var weak = keys.filter(function (k) { return per[k].n && per[k].ok / per[k].n < 0.7; });
       var bars = keys.map(function (k) {
         var p = per[k].n ? Math.round(per[k].ok / per[k].n * 100) : 0;
-        return '<div class="bar-row"><span>' + esc(per[k].titulo) + '</span><span class="bar"><i style="width:' + p + '%"></i></span><b>' + per[k].ok + "/" + per[k].n + "</b></div>";
+        return '<div class="bar-row"><span>' + esc(per[k].titulo) + '</span><span class="bar"><i style="width:' + p + '%"></i></span><b>' + fmtN(per[k].ok) + "/" + per[k].n + "</b></div>";
       }).join("");
       cert.innerHTML =
         '<div class="certificate">' +
           '<p class="kicker">Resultado do simulado · ' + esc(P.titulo) + " · " + esc(P.serieNome) + "</p>" +
           (nome ? '<div class="who">' + esc(nome) + (turma ? " · " + esc(turma) : "") + "</div>" : "") +
-          '<div class="big-score">' + right + "/" + total + "</div>" +
+          '<div class="big-score">' + fmtN(right) + "<small>/" + total + "</small></div>" +
+          '<p class="cert-partes">Fechadas <b>' + fmtN(pf) + "/" + nf + "</b> · Abertas <b>" + fmtN(pa) + "/" + na + "</b></p>" +
           "<p><b>" + pct + "% de acertos</b> · " + now.toLocaleDateString("pt-BR") + " " + now.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }) + "</p>" +
           '<div class="bars">' + bars + "</div>" +
         "</div>" +

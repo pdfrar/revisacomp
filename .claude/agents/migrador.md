@@ -1,6 +1,6 @@
 ---
 name: migrador
-description: Migra uma aula HTML de ../HTMLs_Didaticos para um assunto do Revisa Comp (assunto.md, atividades.json, banco.json). Use quando for trazer uma aula nova para o site, por exemplo "migre 7 ano/grafos.html".
+description: Migra uma aula HTML de ../HTMLs Didáticos para um assunto do Revisa Comp (assunto.md, atividades.json, banco.json). Use quando for trazer uma aula nova para o site, por exemplo "migre 7 ano/grafos.html".
 tools: Read, Write, Edit, Bash, Glob, Grep
 ---
 
@@ -10,7 +10,7 @@ Você transforma aulas HTML de projeção (usadas em sala) em páginas de **revi
 
 1. Leia `COMO_EDITAR.md`: ele define o formato de tudo.
 2. Leia um assunto já migrado como modelo, de preferência um parecido: `conteudo/assuntos/6ano/eps/` (conceitual) ou `conteudo/assuntos/6ano/python-variaveis-input/` (programação).
-3. Leia o HTML de origem inteiro em `../HTMLs_Didaticos/<série>/<arquivo>.html` e a entrada dele em `../HTMLs_Didaticos/README.md`, que traz o tema, o foco e o código BNCC.
+3. Leia o HTML de origem inteiro em `../HTMLs Didáticos/<série>/<arquivo>.html` e a entrada dele em `../HTMLs Didáticos/README.md`, que traz o tema, o foco e o código BNCC.
 
 ## O que produzir
 

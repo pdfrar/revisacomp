@@ -23,6 +23,11 @@ O **pedaço da mensagem** que aquele pacote está levando.
 O **número** do pacote é o que permite montar a mensagem na ordem certa, mesmo que os pacotes cheguem embaralhados.
 :::
 
+:::destaque Pacote
+cabeçalho + conteúdo
+Cabeçalho = origem, destino e número.
+:::
+
 ## A viagem dos pacotes
 
 1. A mensagem é **dividida** em pacotes numerados.
@@ -47,7 +52,10 @@ Para tudo isso funcionar, todos os aparelhos seguem as mesmas regras combinadas,
 
 “Para: São Paulo” não basta: lá existem milhões de aparelhos. Cada aparelho conectado tem um endereço próprio, o **endereço IP**. Ele vai no cabeçalho do pacote como origem e destino, e os roteadores o leem para encaminhar o pacote, como os Correios fazem com o CEP.
 
-<div class="card" style="text-align:center;font-family:var(--mono);font-size:clamp(26px,7vw,40px);font-weight:700;letter-spacing:.04em">200<span style="color:var(--accent)">.</span>17<span style="color:var(--accent)">.</span>45<span style="color:var(--accent)">.</span>8</div>
+:::destaque Endereço IP
+`200.17.45.8`
+4 números · separados por pontos · cada um de 0 a 255
+:::
 
 :::lembrar Regras do endereço IP
 **4 números**, separados por **pontos**, e cada número vai de **0 a 255**. Então `256.1.1.1` não existe (256 passou do limite), e `10.0.5` também não (só tem 3 números).
@@ -66,6 +74,11 @@ Endereços que começam com `192.168` só valem dentro de cada casa, por isso ex
 ## Domínio e DNS: a lista telefônica da internet
 
 Ninguém decora números como `200.17.45.8`. Por isso os sites têm um nome fácil, o **domínio**, como `escola.edu.br`. Antigamente, para ligar para alguém, as pessoas procuravam o nome numa lista telefônica e achavam o número. O **DNS** faz isso na internet: você digita o nome do site e ele responde o endereço IP.
+
+:::destaque DNS
+nome do site ➜ endereço IP
+É a lista telefônica da internet.
+:::
 
 :::fluxo
 Domínio | escola.edu.br

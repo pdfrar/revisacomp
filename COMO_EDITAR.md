@@ -37,8 +37,24 @@ Abra o `banco.json` do assunto. Cada questão tem este formato:
 - **A primeira opção é sempre a certa.** O site embaralha as opções na hora de mostrar.
 - Para mostrar código na questão, acrescente `"codigo": "print(7 * 3)"`. Use `\n` para quebrar linha.
 - Para pôr negrito, use `**assim**`. Para código no meio do texto, use `` `assim` ``.
+- Para mostrar blocos do code.org, acrescente `"blocos": "quando executar\ndesenhar quadrado()"` (mesma escrita do `:::blocos`, ver abaixo).
 - Aspas dentro do texto precisam de barra antes: `\"`. Ou use as aspas curvas “assim”, que não precisam.
 - Entre uma questão e outra vai uma **vírgula**. Depois da última, não vai.
+
+### Questão aberta
+
+No mesmo `banco.json`, uma questão aberta tem `"tipo": "aberta"`, a resposta esperada em `gabarito` e, se quiser, os pontos que a resposta precisa ter em `criterios`:
+
+```json
+{
+  "tipo": "aberta",
+  "pergunta": "Explique o que é o **DNS**.",
+  "gabarito": "É a lista telefônica da internet: traduz o nome do site para o endereço IP.",
+  "criterios": ["traduz nome em IP", "exemplo ou comparação"]
+}
+```
+
+O aluno escreve, vê o gabarito e se corrige (✔ Acertei · ◐ Em parte · ✘ Errei). Os `criterios` vão servir também para a IA corrigir no futuro.
 
 ## Criar uma prova nova
 
@@ -50,16 +66,13 @@ Abra o `banco.json` do assunto. Cada questão tem este formato:
   "titulo": "Prova do 1º bimestre",
   "data": "2027-04-15",
   "observacao": "Recado opcional que aparece no topo da página da prova.",
-  "assuntos": [
-    { "id": "6ano/eps", "questoes": 7 },
-    { "id": "6ano/pacotes-ip-dns", "questoes": 6 }
-  ]
+  "assuntos": ["6ano/eps", "6ano/pacotes-ip-dns"]
 }
 ```
 
 - `data` vai no formato `"AAAA-MM-DD"`. Se ainda não tiver data, use `null` (sem aspas).
-- `questoes` diz quantas questões o simulado sorteia daquele assunto.
-- Pode incluir assunto de outra série (ex.: `"7ano/grafos"` numa prova do 9º).
+- O simulado segue o formato da prova: **7 fechadas + 3 abertas**, sorteadas revezando entre os assuntos. Para mudar numa prova, acrescente `"fechadas": 8, "abertas": 2`.
+- Pode incluir assunto de outra série (ex.: `"7ano/grafos-pontos-e-ligacoes"` na prova do 9º). Ele aparece também na página da série.
 - Depois da data, a prova sai do destaque e vai sozinha para "Provas anteriores".
 
 ## Editar a explicação (`assunto.md`)
@@ -101,6 +114,10 @@ Abra com `:::nome` e feche com `:::` sozinho na linha:
 | `:::cards` | Cartões lado a lado. Cada cartão começa com `### Título` |
 | `:::fluxo` | Passos com seta. Uma linha por passo: `Título \| texto` |
 | `:::console` | Tela preta mostrando a saída de um programa |
+| `:::destaque Rótulo` | **Conceito em letra grande.** 1ª linha = o que tem que ficar na cabeça; as outras = legenda. Use para o mais importante de cada seção |
+| `:::guia` | Passos com ícone e seta. Uma linha por passo: `📖 \| Título \| texto curto` |
+| `:::blocos Legenda` | Blocos do code.org. Uma linha por bloco; 2 espaços de recuo = dentro do bloco de cima. A cor vem da primeira palavra: “quando” (evento), “repetir” (laço), “se” (lógica), “definir função” (função), terminando em `()` (chamada); o resto é ação |
+| `:::grafo Legenda` | Grafo desenhado. `Nome x,y` cria um vértice (`Nome x,y #2` pinta com a cor 2); `A - B` cria uma aresta, `A - B [5 min]` põe rótulo e `A = B` destaca |
 
 Para código Python colorido, use três crases com `python`:
 
@@ -122,6 +139,10 @@ print("Olá,", nome)
 | `dns` | Simulador de DNS |
 | `quiz` | Quiz extra com o mesmo formato do banco |
 | `tarefa` | Enunciado + resposta escondida, sem correção automática |
+| `colorir` | Grafo para pintar tocando nos vértices; avisa conflitos e o mínimo de cores |
+| `cesar` | Máquina da cifra de César, com desafios para decifrar |
+
+No `ordenar`, os cartões são **arrastados** (no celular, pela alça ⠿, ou pelas setas ▲▼). Com `"blocos": true`, os cartões aparecem como blocos do code.org.
 
 O jeito mais fácil de criar uma atividade é copiar uma parecida de outro assunto e trocar os textos.
 
@@ -141,6 +162,10 @@ npm install        (só na primeira vez)
 npm run dev        → abre em http://localhost:3000
 npm run check      → só confere se o conteúdo está sem erros
 ```
+
+## Correção das abertas por IA (futuro)
+
+O site já tem o ponto de encaixe: basta definir `window.RevisaComp.corretor` como uma função que recebe a questão e o texto do aluno e devolve `{ nota: 1 | 0.5 | 0, comentario }`. A chave da OpenAI **não pode** ficar no navegador: a chamada ao ChatGPT tem que passar por uma função da Vercel (pasta `api/`). Enquanto isso não existir, vale a autocorreção.
 
 ## Regras do site
 

@@ -1,0 +1,49 @@
+[
+  {
+    "id": "pecas",
+    "tipo": "classificar",
+    "titulo": "Qual é a peça?",
+    "dica": "Cada item é o **texto claro**, a **cifra**, a **chave** ou o **texto cifrado**?",
+    "categorias": [
+      { "id": "claro", "curto": "📄 Claro", "rotulo": "Texto claro" },
+      { "id": "cifra", "curto": "⚙️ Cifra", "rotulo": "Cifra" },
+      { "id": "chave", "curto": "🔑 Chave", "rotulo": "Chave" },
+      { "id": "cifrado", "curto": "🔣 Cifrado", "rotulo": "Texto cifrado" }
+    ],
+    "itens": [
+      { "texto": "“Trocar cada letra pela que está algumas posições à frente”", "resposta": "cifra", "porque": "É a regra." },
+      { "texto": "O número 3, que diz quantas posições andar", "resposta": "chave", "porque": "É o segredo que ajusta a regra." },
+      { "texto": "NOS VEMOS NA FEIRA", "resposta": "claro", "porque": "A mensagem original, legível." },
+      { "texto": "QRV YHPRV QD IHLUD", "resposta": "cifrado", "porque": "O resultado ilegível." },
+      { "texto": "A chave privada do servidor do banco", "resposta": "chave", "porque": "É o segredo que abre o cadeado." },
+      { "texto": "A mensagem embaralhada que viaja pela internet", "resposta": "cifrado", "porque": "É o que circula sem revelar nada." }
+    ]
+  },
+  {
+    "id": "envio-guarda",
+    "tipo": "classificar",
+    "titulo": "Dado enviado ou guardado?",
+    "dica": "A criptografia está protegendo um dado **enviado** (no caminho) ou **guardado** (parado)?",
+    "categorias": [
+      { "id": "E", "curto": "📨 Enviado", "rotulo": "Dado enviado" },
+      { "id": "G", "curto": "💾 Guardado", "rotulo": "Dado guardado" }
+    ],
+    "itens": [
+      { "texto": "Mensagem com criptografia de ponta a ponta no WhatsApp", "resposta": "E", "porque": "Protege a mensagem enquanto viaja." },
+      { "texto": "Hash da senha no banco de dados do site", "resposta": "G", "porque": "A senha fica guardada como resumo." },
+      { "texto": "Cadeado e https:// ao abrir o site do banco", "resposta": "E", "porque": "Protege o que vai e volta entre você e o site." },
+      { "texto": "Fotos do celular com bloqueio de tela", "resposta": "G", "porque": "Os arquivos ficam cifrados no aparelho." },
+      { "texto": "Pagamento por Pix no app do banco", "resposta": "E", "porque": "Os dados viajam cifrados até o banco." },
+      { "texto": "Backup cifrado das conversas na nuvem", "resposta": "G", "porque": "Os dados estão guardados cifrados." }
+    ]
+  },
+  {
+    "id": "cadeado",
+    "tipo": "ordenar",
+    "titulo": "O cadeado do https",
+    "dica": "Arraste para a ordem certa.",
+    "cenarios": [
+      { "titulo": "🔒 Mandando a senha para o banco", "passos": ["O servidor do banco envia o cadeado aberto (chave pública)", "Seu celular tranca a mensagem com esse cadeado", "A mensagem trancada viaja pela internet", "Alguém no caminho intercepta, mas não consegue abrir", "O servidor abre com a chave privada, que só ele tem"], "fim": "Chave pública tranca; só a chave privada abre." }
+    ]
+  }
+]

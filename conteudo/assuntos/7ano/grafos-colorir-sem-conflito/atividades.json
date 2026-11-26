@@ -1,0 +1,69 @@
+[
+  {
+    "id": "oficinas",
+    "tipo": "colorir",
+    "titulo": "Pinte as oficinas",
+    "dica": "👆 Toque numa oficina para trocar a cor. Cada cor é um horário. Use o **menor número** de horários sem conflito.",
+    "cores": 4,
+    "minimo": 3,
+    "rotulosCores": ["1º horário", "2º horário", "3º horário", "4º horário"],
+    "vertices": [
+      { "nome": "Robótica", "x": 80, "y": 60 },
+      { "nome": "Xadrez", "x": 300, "y": 60 },
+      { "nome": "Futsal", "x": 190, "y": 190 },
+      { "nome": "Dança", "x": 80, "y": 320 },
+      { "nome": "Desenho", "x": 300, "y": 320 },
+      { "nome": "Teatro", "x": 190, "y": 440 }
+    ],
+    "arestas": [["Robótica", "Xadrez"], ["Robótica", "Dança"], ["Teatro", "Dança"], ["Xadrez", "Futsal"], ["Robótica", "Futsal"], ["Teatro", "Desenho"], ["Dança", "Desenho"], ["Xadrez", "Desenho"]],
+    "fim": "Menos que 3 não dá: Robótica, Xadrez e Futsal formam um triângulo."
+  },
+  {
+    "id": "nordeste",
+    "tipo": "colorir",
+    "titulo": "Pinte o Nordeste",
+    "dica": "Estados vizinhos não podem ter a mesma cor. Consegue com 3?",
+    "cores": 4,
+    "minimo": 3,
+    "vertices": [
+      { "nome": "MA", "x": 40, "y": 80 },
+      { "nome": "PI", "x": 130, "y": 150 },
+      { "nome": "CE", "x": 230, "y": 60 },
+      { "nome": "RN", "x": 350, "y": 50 },
+      { "nome": "PB", "x": 360, "y": 130 },
+      { "nome": "PE", "x": 290, "y": 200 },
+      { "nome": "AL", "x": 370, "y": 270 },
+      { "nome": "SE", "x": 320, "y": 330 },
+      { "nome": "BA", "x": 190, "y": 330 }
+    ],
+    "arestas": [["MA", "PI"], ["PI", "CE"], ["PI", "PE"], ["PI", "BA"], ["CE", "RN"], ["CE", "PB"], ["CE", "PE"], ["RN", "PB"], ["PB", "PE"], ["PE", "AL"], ["PE", "BA"], ["AL", "SE"], ["AL", "BA"], ["SE", "BA"]],
+    "fim": "PI, CE e PE formam um triângulo, por isso 2 cores não bastam."
+  },
+  {
+    "id": "aresta",
+    "tipo": "classificar",
+    "titulo": "Podem ser no mesmo horário?",
+    "dica": "Olhe a tabela de inscrições das oficinas. Se **algum aluno** faz as duas, há conflito.",
+    "categorias": [
+      { "id": "sim", "curto": "✔ Podem", "rotulo": "Podem (sem aresta)" },
+      { "id": "nao", "curto": "✘ Conflito", "rotulo": "Conflito (tem aresta)" }
+    ],
+    "itens": [
+      { "texto": "Robótica e Dança", "resposta": "nao", "porque": "O Mateus faz as duas." },
+      { "texto": "Robótica e Teatro", "resposta": "sim", "porque": "Ninguém faz as duas." },
+      { "texto": "Xadrez e Desenho", "resposta": "nao", "porque": "A Yasmin faz as duas." },
+      { "texto": "Futsal e Dança", "resposta": "sim", "porque": "Ninguém faz as duas." },
+      { "texto": "Teatro e Desenho", "resposta": "nao", "porque": "A Sofia faz as duas." },
+      { "texto": "Futsal e Teatro", "resposta": "sim", "porque": "Ninguém faz as duas: podem dividir o 3º horário." }
+    ]
+  },
+  {
+    "id": "guloso",
+    "tipo": "ordenar",
+    "titulo": "Os passos do algoritmo guloso",
+    "dica": "Arraste para a ordem certa.",
+    "cenarios": [
+      { "titulo": "🤖 Como o computador colore", "passos": ["Contar o grau de cada vértice", "Ordenar os vértices do maior grau para o menor", "Pegar o próximo vértice da lista", "Dar a ele a primeira cor que nenhum vizinho tem", "Repetir até acabar a lista"], "fim": "Rápido, mas nem sempre encontra o mínimo de cores." }
+    ]
+  }
+]

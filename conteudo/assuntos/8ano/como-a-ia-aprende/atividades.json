@@ -1,0 +1,48 @@
+[
+  {
+    "id": "duas-formas",
+    "tipo": "classificar",
+    "titulo": "Regra escrita ou aprendida?",
+    "dica": "O programador **escreveu a regra** (programa comum) ou a máquina **aprendeu com exemplos**?",
+    "categorias": [
+      { "id": "P", "curto": "📜 Programa comum", "rotulo": "Programa comum" },
+      { "id": "A", "curto": "🧠 Aprendeu", "rotulo": "Aprendizado de máquina" }
+    ],
+    "itens": [
+      { "texto": "Calculadora que soma dois números", "resposta": "P", "porque": "A regra da soma foi escrita pelo programador." },
+      { "texto": "Desbloquear o celular pelo rosto", "resposta": "A", "porque": "O sistema aprendeu com muitos exemplos de rostos." },
+      { "texto": "“Se a média for 6 ou mais, aprovado”", "resposta": "P", "porque": "É uma regra escrita, uma a uma." },
+      { "texto": "O feed escolhendo o próximo vídeo para você", "resposta": "A", "porque": "Aprende com o que você e outras pessoas assistem." },
+      { "texto": "Modelo do Teachable Machine que reconhece “joinha”", "resposta": "A", "porque": "Treinado com fotos de exemplo de cada classe." },
+      { "texto": "Despertador que toca às 6h30", "resposta": "P", "porque": "Regra fixa: na hora marcada, tocar." },
+      { "texto": "App que diz qual planta aparece na foto", "resposta": "A", "porque": "Aprendeu com milhares de fotos de plantas com o nome certo." }
+    ]
+  },
+  {
+    "id": "treino",
+    "tipo": "ordenar",
+    "titulo": "Os passos do Teachable Machine",
+    "dica": "Arraste para a ordem em que fizemos em sala.",
+    "cenarios": [
+      { "titulo": "🧪 Treinando um modelo", "passos": ["Criar as classes (ex.: “joinha” e “mão aberta”)", "Gravar muitos exemplos de cada classe", "Clicar em Treinar", "Testar com a câmera, fazendo um gesto novo", "Se errar, juntar mais exemplos variados e treinar de novo"], "fim": "Classes → exemplos → treinar → testar → melhorar." },
+      { "titulo": "📱 O ciclo do feed", "passos": ["Você assiste a um vídeo até o fim", "O app registra o tempo e o assunto", "O modelo prevê do que você gosta", "O feed mostra mais vídeos parecidos"], "fim": "E o ciclo recomeça: é assim que se forma a bolha." }
+    ]
+  },
+  {
+    "id": "bom-ruim",
+    "tipo": "classificar",
+    "titulo": "Esses exemplos ajudam ou atrapalham?",
+    "dica": "Pense no lobo e no husky: o que faz o modelo aprender o padrão certo?",
+    "categorias": [
+      { "id": "ok", "curto": "👍 Ajuda", "rotulo": "Ajuda" },
+      { "id": "no", "curto": "👎 Atrapalha", "rotulo": "Atrapalha" }
+    ],
+    "itens": [
+      { "texto": "100 fotos de cada gesto, com luzes e fundos diferentes", "resposta": "ok", "porque": "Muitos exemplos variados: o modelo aprende o gesto." },
+      { "texto": "Todas as fotos de “joinha” com a mesma camiseta azul", "resposta": "no", "porque": "O modelo pode aprender a camiseta, não o gesto." },
+      { "texto": "5 fotos de uma classe e 300 da outra", "resposta": "no", "porque": "Classes desequilibradas: o modelo tende a chutar a maior." },
+      { "texto": "Fotos de várias pessoas diferentes fazendo o gesto", "resposta": "ok", "porque": "Assim ele funciona para mais gente." },
+      { "texto": "Todos os lobos na neve e todos os huskies na grama", "resposta": "no", "porque": "O modelo aprendeu “neve”, não “lobo”." }
+    ]
+  }
+]

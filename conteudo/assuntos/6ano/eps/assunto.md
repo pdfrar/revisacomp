@@ -14,8 +14,9 @@ Na computação, problema não é bronca nem conta difícil. Resolver um problem
 
 Pense na vitamina de banana: entram banana, leite e achocolatado; o liquidificador mistura; sai a vitamina pronta. Ela não surgiu do nada: precisou de coisas no início e de uma ação que transformou tudo.
 
-:::lembrar
-Um problema é a relação entre o que **entra** e o que **sai**. Diante de qualquer programa, pergunte: “O que está entrando aqui? E o que deve sair?”
+:::destaque Problema
+O que **entra** ➜ o que **sai**
+Diante de qualquer programa, pergunte: “O que está entrando aqui? E o que deve sair?”
 :::
 
 ## As três etapas: o ciclo EPS
@@ -58,7 +59,8 @@ Caixa de som, fone: o “boing!” do pulo, a música de vitória.
 Vibração: o controle tremendo quando o carro bate.
 :::
 
-:::lembrar
+:::destaque Ciclo EPS
+*E*ntrada ➜ *P*rocessamento ➜ *S*aída
 **E** = o que você manda · **P** = o que a máquina faz lá dentro · **S** = o que ela devolve para você.
 :::
 
@@ -72,6 +74,10 @@ Vibração: o controle tremendo quando o carro bate.
 | 🚦 Semáforo com botão | Pedestre aperta o botão | Espera alguns segundos para os carros frearem | Vermelho para os carros, bonequinho verde e apito |
 | 🌦️ Previsão do tempo | Termômetros, satélites e sensores de vento | Supercomputadores fazem milhões de cálculos | Aviso no celular: “Amanhã, 80% de chance de chuva” |
 | 🛒 Caixa do mercado | Código de barras lido pelo feixe | Busca o produto e o preço no sistema | “Bip!”, nome na tela e soma no total |
+
+:::destaque
+Entrada muda ➜ saída muda
+:::
 
 :::lembrar
 Se a **entrada muda, a saída muda**. Na máquina de lanches, se você colocar só R$ 2 num salgado de R$ 4, a saída é a mensagem “SALDO INSUFICIENTE” e o dinheiro devolvido.
